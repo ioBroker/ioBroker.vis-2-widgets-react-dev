@@ -1,0 +1,30 @@
+{
+  "name": "@iobroker/vis-widgets-react-dev",
+  "version": "-.-.-",
+  "description": "React classes to develop vis widgets interfaces for ioBroker with react.",
+  "author": {
+    "name": "bluefox",
+    "email": "dogafox@gmail.com"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ioBroker/ioBroker.vis-widgets-react-dev.git"
+  },
+  "module": "./index.js",
+  "keywords": [
+    "iobroker",
+    "adapter",
+    "iot"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ioBroker/ioBroker.vis-widgets-react-dev/issues"
+  },
+  "homepage": "https://github.com/ioBroker/ioBroker.vis-widgets-react-dev#readme",
+  "devDependencies": {},
+  "dependencies": {}
+}
