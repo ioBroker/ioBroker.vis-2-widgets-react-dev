@@ -1,19 +1,8 @@
 import React from 'react';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
-import withStyles from '@mui/styles/withStyles';
 
 import GenericApp from '@iobroker/adapter-react-v5/GenericApp';
 import { i18n as I18n, Loader } from '@iobroker/adapter-react-v5';
-
-const styles = theme => ({
-    app: {
-        backgroundColor: theme.palette.background.default,
-        color: theme.palette.text.primary,
-        height: '100%',
-        width: '100%',
-        overflow: 'auto',
-    },
-});
 
 class WidgetDemoApp extends GenericApp {
     constructor(props) {
@@ -54,9 +43,17 @@ class WidgetDemoApp extends GenericApp {
             </StyledEngineProvider>;
         }
 
+        const style = {
+            backgroundColor: this.state.themeType === 'dark' ? '#303030' : '#f0f0f0',
+            color: this.state.themeType === 'dark' ? '#f0f0f0' : '#303030',
+            height: '100%',
+            width: '100%',
+            overflow: 'auto',
+        };
+
         return <StyledEngineProvider injectFirst>
             <ThemeProvider theme={this.state.theme}>
-                <div className={this.props.classes.app}>
+                <div style={style}>
                     {this.renderWidget()}
                 </div>
             </ThemeProvider>
@@ -64,4 +61,4 @@ class WidgetDemoApp extends GenericApp {
     }
 }
 
-export default withStyles(styles)(WidgetDemoApp);
+export default WidgetDemoApp;

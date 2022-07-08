@@ -1,8 +1,9 @@
 # Help ReactJS classes for development of vis widgets based on react
 
-## Getting started
-
 ## Development
+How to develop a vis widget based on react?
+
+See here: https://github.com/ioBroker/ioBroker.vis-widgets-react-template
 
 <!--
 	Placeholder for the next version (at the beginning of the line):
@@ -12,7 +13,7 @@
 ## Changelog
 
 ### **WORK IN PROGRESS**
-* initial commit
+* (bluefox) initial commit
 
 ## License
 The MIT License (MIT)
