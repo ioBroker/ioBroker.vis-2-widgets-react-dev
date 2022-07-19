@@ -38,8 +38,11 @@ class visRxWidget extends React.Component {
             group.fields.forEach(field => {
                 if (field.type === 'id') {
                     Object.keys(this.state.data).forEach(dataKey => {
-                        if (dataKey.match(new RegExp(`^${field.name}\d*$`)) && !this.linkContext.IDs.includes(this.state.data[dataKey])) {
-                            this.linkContext.IDs.push(this.state.data[dataKey]);
+                        if (dataKey.match(new RegExp(`^${field.name}[0-9]*$`))) {
+                            const oid = this.state.data[dataKey];
+                            if (!this.linkContext.IDs.includes(oid)) {
+                                this.linkContext.IDs.push(oid);
+                            }
                         }
                     });
                 }
