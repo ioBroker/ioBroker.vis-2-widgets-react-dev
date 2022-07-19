@@ -16,8 +16,11 @@ class visRxWidget extends React.Component {
     }
 
     getIdSubscribeState = (id, cb) => {
-        this.props.socket.getState(id).then(result => cb(id, result));
-        this.props.socket.subscribeState(id, (resultId, result) => cb(id, result));
+        return this.props.socket.getState(id)
+            .then(result => {
+                cb(id, result);
+                return this.props.socket.subscribeState(id, (resultId, result) => cb(id, result))
+            });
     };
 
     onStateChanged(id, state) {
@@ -35,7 +38,7 @@ class visRxWidget extends React.Component {
             group.fields.forEach(field => {
                 if (field.type === 'id') {
                     Object.keys(this.state.data).forEach(dataKey => {
-                        if (dataKey.match(new RegExp(`^${field.name}[0-9]*$`))) {
+                        if (dataKey.match(new RegExp(`^${field.name}\d*$`)) && !this.linkContext.IDs.includes(this.state.data[dataKey])) {
                             this.linkContext.IDs.push(this.state.data[dataKey]);
                         }
                     });
