@@ -33,10 +33,10 @@ class visRxWidget extends React.Component {
         this.setState({ values });
     }
 
-    componentDidMount() {
-        this.getWidgetInfo().visAttrs.forEach(group => {
-            group.fields.forEach(field => {
-                if (field.type === 'id') {
+    async componentDidMount() {
+        this.getWidgetInfo()?.visAttrs?.forEach(group =>
+            group?.fields?.forEach(field => {
+                if (field?.type === 'id') {
                     Object.keys(this.state.data).forEach(dataKey => {
                         // do not use here \d instead of [0-9] as it will be wrong compiled
                         if (dataKey.match(new RegExp(`^${field.name}[0-9]*$`))) {
@@ -47,10 +47,11 @@ class visRxWidget extends React.Component {
                         }
                     });
                 }
-            });
-        });
+            }));
 
-        this.linkContext.IDs.forEach(oid => this.getIdSubscribeState(oid, this.onStateChanged));
+        for (let i = 0; i < this.linkContext.IDs.length; i++) {
+            await this.getIdSubscribeState(this.linkContext.IDs[i], this.onStateChanged);
+        }
     }
 
     componentWillUnmount() {
