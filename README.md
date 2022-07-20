@@ -11,7 +11,7 @@ See here: https://github.com/ioBroker/ioBroker.vis-widgets-react-template
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 0.1.5 (2022-07-20)
 * (bluefox) visRxWidget was optimized
 
 ### 0.1.1 (2022-07-08)
