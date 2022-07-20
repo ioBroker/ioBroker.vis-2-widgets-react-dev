@@ -2,7 +2,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
-import Utils from '@iobroker/adapter-react-v5/Components/Utils';
+import { Utils } from '@iobroker/adapter-react-v5';
 import theme from './theme';
 
 window.adapterName = 'vis-react-demo';
