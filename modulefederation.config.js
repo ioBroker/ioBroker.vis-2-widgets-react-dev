@@ -1,10 +1,11 @@
-const makeShared = pkgs => {
+const makeShared = (pkgs, eager) => {
     const result = {};
     pkgs.forEach(
         packageName => {
             result[packageName] = {
                 requiredVersion: '*',
                 singleton: true,
+                eager,
             };
         },
     );
@@ -24,7 +25,7 @@ const makeShared = pkgs => {
 //     }
 // );
 
-function makeFederation(name, exposes, _shared) {
+function makeFederation(name, exposes, eager, _shared) {
     const shared = [
         'react',
         'react-dom',
@@ -36,6 +37,7 @@ function makeFederation(name, exposes, _shared) {
         '@mui/icons-material',
         'prop-types',
         '@iobroker/adapter-react-v5',
+        'react-ace',
         '@iobroker/vis-widgets-react-dev',
         ...(_shared || [])
     ];
@@ -44,7 +46,7 @@ function makeFederation(name, exposes, _shared) {
         name,
         filename: 'customWidgets.js',
         exposes,
-        shared: makeShared(shared),
+        shared: makeShared(shared, eager),
     }
 }
 

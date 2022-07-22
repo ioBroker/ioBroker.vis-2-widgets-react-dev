@@ -11,7 +11,7 @@ See here: https://github.com/ioBroker/ioBroker.vis-widgets-react-template
 -->
 
 ## Changelog
-### 0.1.6 (2022-07-22)
+### **WORK IN PROGRESS**
 * (bluefox) Added `modulefederation` and `craco` config files
 
 ### 0.1.5 (2022-07-20)
