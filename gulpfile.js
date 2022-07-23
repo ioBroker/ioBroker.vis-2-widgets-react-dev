@@ -69,7 +69,7 @@ gulp.task('compile', gulp.parallel('copy',
 
         gulp.src(['src/index.jsx'])
             .pipe(gulp.dest('dist')),
-        gulp.src(['craco.config.js', 'modulefederation.config.js'])
+        gulp.src(['craco.config.js', 'modulefederation.config.js', 'searchI18n.js'])
             .pipe(gulp.dest('dist')),
     ])
 ));
