@@ -11,6 +11,9 @@ See here: https://github.com/ioBroker/ioBroker.vis-widgets-react-template
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (bluefox) Added search for i18n keys in the code
+
 ### 0.1.7 (2022-07-22)
 * (bluefox) Added `modulefederation` and `craco` config files
 
