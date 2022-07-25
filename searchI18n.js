@@ -11,6 +11,8 @@ extend(walk.base);
 
 const keys = [];
 
+// you can explore the tree here: https://astexplorer.net/
+
 function findKeys(src, name) {
     return new Promise(resolve =>
         dir.readFiles(src || __dirname + '/../../../src',
@@ -36,7 +38,7 @@ function findKeys(src, name) {
                             // or multiple arguments, you'd need to handle them here too.
                             console.log(`Cannot calculate: "${content.slice(node.arguments[0].start, node.arguments[0].end)}"`);
                         }
-                    }
+                    } else
                     if (node.type === 'Property' && node.key.name === 'visAttrs') {
                         const visAttrs = parser.parse(content.slice(node.value.start, node.value.end), {
                             sourceType: 'module',
@@ -49,6 +51,16 @@ function findKeys(src, name) {
                                 }
                             }
                         });
+                    } else
+                    if (node.type === 'Property' && node.key.name === 'visWidgetLabel') {
+                        if (!keys.includes(node.value.value)) {
+                            keys.push(node.value.value);
+                        }
+                    } else
+                    if (node.type === 'Property' && node.key.name === 'visSetLabel') {
+                        if (!keys.includes(node.value.value)) {
+                            keys.push(node.value.value);
+                        }
                     }
                 });
                 next();
