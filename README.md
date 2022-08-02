@@ -11,6 +11,9 @@ See here: https://github.com/ioBroker/ioBroker.vis-widgets-react-template
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (bluefox) Corrected simulation of `data` and `style` 
+
 ### 0.2.2 (2022-07-25)
 * (bluefox) Added search for i18n keys in the code
 

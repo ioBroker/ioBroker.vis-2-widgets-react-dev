@@ -4,7 +4,14 @@ class visRxWidget extends React.Component {
     constructor(props) {
         super(props);
         this.onStateChanged = this.onStateChanged.bind(this);
-        this.state = { ...props, values: {} };
+        this.state = {
+            ...props,
+            values: {},
+            data: JSON.parse(JSON.stringify(props.data || {})),
+            style: JSON.parse(JSON.stringify(props.style || {})),
+            rxData: JSON.parse(JSON.stringify(props.data || {})),
+            rxStyle: JSON.parse(JSON.stringify(props.style || {})),
+        };
         this.linkContext = {
             IDs: [],
         };
