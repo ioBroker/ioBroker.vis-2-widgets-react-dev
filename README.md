@@ -3,7 +3,7 @@
 ## Development
 How to develop a vis widget based on react?
 
-See here: https://github.com/ioBroker/ioBroker.vis-widgets-react-template
+See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
 
 <!--
 	Placeholder for the next version (at the beginning of the line):

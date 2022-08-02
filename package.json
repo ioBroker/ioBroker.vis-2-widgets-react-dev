@@ -1,5 +1,5 @@
 {
-  "name": "@iobroker/vis-widgets-react-dev",
+  "name": "@iobroker/vis-2-widgets-react-dev",
   "version": "0.2.3",
   "description": "React classes to develop admin interfaces for ioBroker with react.",
   "author": {
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ioBroker/ioBroker.vis-widgets-react-dev.git"
+    "url": "git+https://github.com/ioBroker/ioBroker.vis-2-widgets-react-dev.git"
   },
   "publishConfig": {
     "access": "public"
@@ -29,9 +29,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ioBroker/ioBroker.vis-widgets-react-dev/issues"
+    "url": "https://github.com/ioBroker/ioBroker.vis-2-widgets-react-dev/issues"
   },
-  "homepage": "https://github.com/ioBroker/ioBroker.vis-widgets-react-dev#readme",
+  "homepage": "https://github.com/ioBroker/ioBroker.vis-2-widgets-react-dev#readme",
   "dependencies": {
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",

@@ -1,6 +1,6 @@
 // this file contains the configuration for the craco project
 // Usage in file craco.config.js:
-// module.exports = require('@iobroker/vis-widgets-react-dev/craco.config.js');
+// module.exports = require('@iobroker/vis-2-widgets-react-dev/craco.config.js');
 
 const CracoEsbuildPlugin = require('craco-esbuild');
 const { ProvidePlugin } = require('webpack');

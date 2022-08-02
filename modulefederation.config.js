@@ -14,7 +14,7 @@ const makeShared = (pkgs, eager) => {
 };
 
 // How to use
-// const makeFederation = require('@iobroker/vis-widgets-react-dev/modulefederation.config');
+// const makeFederation = require('@iobroker/vis-2-widgets-react-dev/modulefederation.config');
 // module.exports = makeFederation(
 //     'vis2materialWidgets',
 //     {
@@ -38,7 +38,7 @@ function makeFederation(name, exposes, eager, _shared) {
         'prop-types',
         '@iobroker/adapter-react-v5',
         'react-ace',
-        '@iobroker/vis-widgets-react-dev',
+        '@iobroker/vis-2-widgets-react-dev',
         ...(_shared || [])
     ];
 

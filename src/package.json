@@ -1,5 +1,5 @@
 {
-  "name": "@iobroker/vis-widgets-react-dev",
+  "name": "@iobroker/vis-2-widgets-react-dev",
   "version": "-.-.-",
   "description": "React classes to develop vis widgets interfaces for ioBroker with react.",
   "author": {
@@ -12,7 +12,7 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ioBroker/ioBroker.vis-widgets-react-dev.git"
+    "url": "git+https://github.com/ioBroker/ioBroker.vis-2-widgets-react-dev.git"
   },
   "module": "./index.js",
   "keywords": [
@@ -22,9 +22,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ioBroker/ioBroker.vis-widgets-react-dev/issues"
+    "url": "https://github.com/ioBroker/ioBroker.vis-2-widgets-react-dev/issues"
   },
-  "homepage": "https://github.com/ioBroker/ioBroker.vis-widgets-react-dev#readme",
+  "homepage": "https://github.com/ioBroker/ioBroker.vis-2-widgets-react-dev#readme",
   "devDependencies": {},
   "dependencies": {}
 }
