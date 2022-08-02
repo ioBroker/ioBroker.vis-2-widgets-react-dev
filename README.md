@@ -11,6 +11,9 @@ See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (bluefox) Renamed to `vis-2-widgets-react-dev`
+
 ### 0.2.3 (2022-08-02)
 * (bluefox) Corrected simulation of `data` and `style`
 
