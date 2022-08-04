@@ -11,6 +11,9 @@ See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (bluefox) Added search for i18n keys in the tooltips
+
 ### 0.3.0 (2022-08-02)
 * (bluefox) Renamed to `vis-2-widgets-react-dev`
 

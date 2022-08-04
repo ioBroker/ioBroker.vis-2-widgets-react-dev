@@ -61,6 +61,11 @@ function findKeys(src, name) {
                         if (!keys.includes(node.value.value)) {
                             keys.push(node.value.value);
                         }
+                    } else
+                    if (node.type === 'Property' && node.key.name === 'tooltip') {
+                        if (!keys.includes(node.value.value)) {
+                            keys.push(node.value.value);
+                        }
                     }
                 });
                 next();
