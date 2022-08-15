@@ -25,7 +25,7 @@ function findKeys(src, name) {
                     ecmaVersion: 'latest'
                 });
 
-                walk.full(result, node => {
+                walk.fullAncestor(result, (node, state, ancestors) => {
                     if (node.type === 'CallExpression' && node.callee.property?.type === 'Identifier' && node.callee.property?.name === 't') {
                         if (node.arguments.length === 1 && node.arguments[0].type === 'Literal' && typeof node.arguments[0].value === 'string') {
                             // This is for the case `t` is called with a single string
@@ -63,7 +63,11 @@ function findKeys(src, name) {
                         }
                     } else
                     if (node.type === 'Property' && node.key.name === 'tooltip') {
-                        if (!keys.includes(node.value.value)) {
+                        if (ancestors[ancestors.length - 7] &&
+                            ancestors[ancestors.length - 7].key &&
+                            ancestors[ancestors.length - 7].key.name === 'visAttrs' &&
+                            !keys.includes(node.value.value)
+                        ) {
                             keys.push(node.value.value);
                         }
                     }

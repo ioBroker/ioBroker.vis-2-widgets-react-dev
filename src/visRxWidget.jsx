@@ -22,6 +22,12 @@ class visRxWidget extends React.Component {
 
     }
 
+    // eslint-disable-next-line class-methods-use-this
+    // @ts-ignore
+    onStateUpdated(id, state) {
+
+    }
+
     getIdSubscribeState = (id, cb) => {
         return this.props.socket.getState(id)
             .then(result => {
@@ -37,6 +43,9 @@ class visRxWidget extends React.Component {
         const values = JSON.parse(JSON.stringify(this.state.values));
         Object.keys(state).forEach(key =>
             values[`${id}.${key}`] = state[key]);
+
+        this.onStateUpdated(id, state);
+
         this.setState({ values });
     }
 

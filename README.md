@@ -11,6 +11,9 @@ See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (bluefox) Added method onStateUpdated
+
 ### 0.3.1 (2022-08-04)
 * (bluefox) Added search for i18n keys in the tooltips
 
