@@ -99,6 +99,8 @@ function findKeys(src, name) {
                     keys.forEach(key => {
                         if (!en[key]) {
                             empty[key] = all[key];
+                        } else {
+                            all[key] = en[key];
                         }
                     });
                 }
