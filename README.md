@@ -11,6 +11,9 @@ See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (bluefox) Better i18n support
+
 ### 0.3.2 (2022-08-15)
 * (bluefox) Added method onStateUpdated
 

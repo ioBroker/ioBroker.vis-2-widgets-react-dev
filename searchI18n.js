@@ -84,8 +84,11 @@ function findKeys(src, name) {
                 }
 
                 const all = {};
-                keys.forEach(key => key && (all[key] = key.replace(name + '_', '')));
-
+                keys.forEach(key => {
+                    all[key] = key.replace(name + '_', '');
+                    all[key] = all[key].replace(/_/g, ' ');
+                    all[key] = all[key][0].toUpperCase() + all[key].substring(1);
+                });
                 const empty = {};
 
                 let en;
