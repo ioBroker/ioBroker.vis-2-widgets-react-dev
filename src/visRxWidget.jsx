@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { I18n } from '@iobroker/adapter-react-v5';
+
 class visRxWidget extends React.Component {
     constructor(props) {
         super(props);
@@ -15,6 +17,18 @@ class visRxWidget extends React.Component {
         this.linkContext = {
             IDs: [],
         };
+    }
+
+    static getI18nPrefix() {
+        return '';
+    }
+
+    static t(key) {
+        return I18n.t(`${visRxWidget.getI18nPrefix()}${key}`);
+    }
+
+    static getLanguage() {
+        return I18n.getLanguage();
     }
 
     // eslint-disable-next-line class-methods-use-this
