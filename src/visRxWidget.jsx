@@ -24,7 +24,7 @@ class visRxWidget extends React.Component {
     }
 
     static t(key) {
-        return I18n.t(`${visRxWidget.getI18nPrefix()}${key}`);
+        return I18n.t(`${this.getI18nPrefix()}${key}`);
     }
 
     static getLanguage() {
