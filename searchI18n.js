@@ -27,7 +27,7 @@ function findKeys(src, name) {
 
                 walk.fullAncestor(result, (node, state, ancestors) => {
                     if (node.type === 'CallExpression' && node.callee.property?.type === 'Identifier' && node.callee.property?.name === 't') {
-                        if (node.arguments.length === 1 && node.arguments[0].type === 'Literal' && typeof node.arguments[0].value === 'string') {
+                        if (node.arguments.length && node.arguments[0].type === 'Literal' && typeof node.arguments[0].value === 'string') {
                             // This is for the case `t` is called with a single string
                             // literal as argument.
                             if (!keys.includes(node.arguments[0].value)) {
@@ -36,7 +36,7 @@ function findKeys(src, name) {
                         } else {
                             // In case you have things like template literals as well,
                             // or multiple arguments, you'd need to handle them here too.
-                            console.log(`Cannot calculate: "${content.slice(node.arguments[0].start, node.arguments[0].end)}"`);
+                            console.log(`Cannot calculate: "${content.slice(node.arguments[0].start - 10, node.arguments[0].end + 10).replace(/\n/g, '\\n')}"`);
                         }
                     } else
                     if (node.type === 'Property' && node.key.name === 'visAttrs') {
@@ -85,9 +85,11 @@ function findKeys(src, name) {
 
                 const all = {};
                 keys.forEach(key => {
-                    all[key] = key.replace(name + '_', '');
-                    all[key] = all[key].replace(/_/g, ' ');
-                    all[key] = all[key][0].toUpperCase() + all[key].substring(1);
+                    if (key) {
+                        all[key] = key.replace(name + '_', '');
+                        all[key] = all[key].replace(/_/g, ' ');
+                        all[key] = all[key][0].toUpperCase() + all[key].substring(1);
+                    }
                 });
                 const empty = {};
 
