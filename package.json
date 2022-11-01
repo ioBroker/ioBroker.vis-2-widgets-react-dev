@@ -39,7 +39,7 @@
     "@mui/material": "^5.10.12",
     "@mui/styles": "^5.10.10",
     "@sentry/browser": "^7.16.0",
-    "@sentry/integrations": "^7.16.0",
+    "@sentry/integrations": "^7.17.3",
     "@types/iobroker": "^4.0.5",
     "node-dir": "^0.1.17",
     "acorn": "^8.8.1",
