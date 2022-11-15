@@ -11,7 +11,7 @@ See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 0.3.7 (2022-11-15)
 * Better i18n support
 
 ### 0.3.6 (2022-10-26)
