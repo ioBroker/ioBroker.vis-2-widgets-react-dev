@@ -102,7 +102,7 @@ function findKeys(src, name) {
                 const all = {};
                 if (prefix) {
                     keys.forEach((key, index) => {
-                        if (!key.startsWith(prefix)) {
+                        if (key && !key.startsWith(prefix)) {
                             keys[index] = prefix + key;
                         }
                     });
