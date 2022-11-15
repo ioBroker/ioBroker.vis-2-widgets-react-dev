@@ -1,4 +1,6 @@
 const dir = require('node-dir');
+const fs = require('fs');
+const path = require('path');
 // Extend Acorn parser with JSX
 const acorn = require('acorn');
 const jsx = require('acorn-jsx');
@@ -14,8 +16,22 @@ const keys = [];
 // you can explore the tree here: https://astexplorer.net/
 
 function findKeys(src, name) {
-    return new Promise(resolve =>
-        dir.readFiles(src || __dirname + '/../../../src',
+    return new Promise(resolve => {
+        let prefix = '';
+        const translationsConfig = src ? path.join(src, 'translations.js') : `${__dirname}/../../../src/translations.js`;
+        if (fs.existsSync(translationsConfig)) {
+            const translationsResult = parser.parse(fs.readFileSync(translationsConfig), {
+                sourceType: 'module',
+                ecmaVersion: 'latest'
+            });
+            walk.fullAncestor(translationsResult, node => {
+                if (node.type === 'Property' && node.key.name === 'prefix') {
+                    prefix = node.value.value;
+                }
+            });
+        }
+
+        dir.readFiles(src || `${__dirname}/../../../src`,
             {
                 match: /\.jsx?$/,
             },
@@ -84,6 +100,13 @@ function findKeys(src, name) {
                 }
 
                 const all = {};
+                if (prefix) {
+                    keys.forEach((key, index) => {
+                        if (!key.startsWith(prefix)) {
+                            keys[index] = prefix + key;
+                        }
+                    });
+                }
                 keys.forEach(key => {
                     if (key) {
                         all[key] = key.replace(name + '_', '');
@@ -112,7 +135,7 @@ function findKeys(src, name) {
                 resolve({all, empty});
             },
         )
-    );
+    });
 }
 
 // If started as allInOne mode => return function to create instance
