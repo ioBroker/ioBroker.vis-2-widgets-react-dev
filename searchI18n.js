@@ -100,13 +100,13 @@ function findKeys(src, name) {
                 }
 
                 const all = {};
-                if (prefix) {
+                /*if (prefix) {
                     keys.forEach((key, index) => {
                         if (key && !key.startsWith(prefix)) {
                             keys[index] = prefix + key;
                         }
                     });
-                }
+                }*/
                 keys.forEach(key => {
                     if (key) {
                         all[key] = key.replace(name + '_', '');
@@ -118,7 +118,7 @@ function findKeys(src, name) {
 
                 let en;
                 try {
-                    en = require(src || __dirname + '/../../../src/i18n/en.json');
+                    en = require(src || `${__dirname}/../../../src/i18n/en.json`);
                 } catch (e) {
 
                 }
