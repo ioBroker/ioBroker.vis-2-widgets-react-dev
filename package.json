@@ -36,7 +36,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.10.14",
-    "@mui/material": "^5.10.14",
+    "@mui/material": "^5.10.16",
     "@mui/styles": "^5.10.14",
     "@sentry/browser": "^7.19.0",
     "@sentry/integrations": "^7.19.0",
