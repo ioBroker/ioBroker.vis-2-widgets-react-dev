@@ -42,7 +42,7 @@
     "@sentry/integrations": "^7.22.0",
     "@types/iobroker": "^4.0.5",
     "node-dir": "^0.1.17",
-    "acorn": "^8.8.1",
+    "acorn": "^8.8.2",
     "acorn-jsx": "^5.3.2",
     "acorn-walk": "^8.2.0",
     "acorn-jsx-walk": "^2.0.0"
