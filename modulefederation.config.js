@@ -33,6 +33,7 @@ function makeFederation(name, exposes, eager, _shared) {
         'clsx',
         '@mui/material',
         '@mui/styles',
+        '@mui/system',
         '@mui/material/styles',
         '@mui/icons-material',
         'prop-types',
