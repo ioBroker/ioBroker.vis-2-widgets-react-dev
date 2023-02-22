@@ -11,6 +11,9 @@ See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (bluefox) GUI packages updated
+
 ### 0.3.9 (2022-11-15)
 * Better i18n support
 
