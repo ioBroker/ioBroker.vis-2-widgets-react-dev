@@ -1,5 +1,10 @@
 import React from 'react';
 
+import {
+    Card,
+    CardContent,
+} from '@mui/material';
+
 import { I18n } from '@iobroker/adapter-react-v5';
 
 class visRxWidget extends React.Component {
@@ -40,6 +45,63 @@ class visRxWidget extends React.Component {
     // @ts-ignore
     onStateUpdated(id, state) {
 
+    }
+
+    formatValue(value, round) {
+        if (typeof value === 'number') {
+            if (round === 0) {
+                value = Math.round(value);
+            } else {
+                value = Math.round(value * 100) / 100;
+            }
+            if (this.props.systemConfig?.common) {
+                if (this.props.systemConfig.common.isFloatComma) {
+                    value = value.toString().replace('.', ',');
+                }
+            }
+        }
+
+        return value === undefined || value === null ? '' : value.toString();
+    }
+
+    wrapContent(content, addToHeader, cardContentStyle, headerStyle, onCardClick) {
+        return <Card
+            style={{ width: 'calc(100% - 8px)', height: 'calc(100% - 8px)', margin: 4 }}
+            onClick={onCardClick}
+        >
+            <CardContent
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    height: '100%',
+                    position: 'relative',
+                    ...cardContentStyle,
+                }}
+            >
+                {this.state.rxData.name ? <div
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        width: '100%',
+                        alignItems: 'center',
+                    }}
+                >
+                    <div
+                        style={{
+                            fontSize: 24,
+                            paddingTop: 0,
+                            paddingBottom: 4,
+                            ...headerStyle,
+                        }}
+                    >
+                        {this.state.rxData.name}
+                    </div>
+                    {addToHeader || null}
+                </div> : (addToHeader || null)}
+                {content}
+            </CardContent>
+        </Card>;
     }
 
     getIdSubscribeState = (id, cb) => {

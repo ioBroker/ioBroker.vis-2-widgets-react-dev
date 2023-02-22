@@ -11,6 +11,9 @@ See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (bluefox) added some common methods like `formatValue` or `wrapContent`
+
 ### 0.3.10 (2023-02-22)
 * (bluefox) GUI packages updated
 
