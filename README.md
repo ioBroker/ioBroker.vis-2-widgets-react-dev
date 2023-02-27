@@ -11,6 +11,9 @@ See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (dilesoft) Try to fix error in webpack
+
 ### 0.3.11 (2023-02-22)
 * (bluefox) added some common methods like `formatValue` or `wrapContent`
 
