@@ -5,7 +5,7 @@
 const CracoEsbuildPlugin = require('craco-esbuild');
 const { ProvidePlugin } = require('webpack');
 // const cracoModuleFederation = require('craco-module-federation');
-const cracoModuleFederation = require('./craco-module-federation');
+const cracoModuleFederation = require('./craco-module-federation'); // use local patched version
 
 module.exports = {
     plugins: [

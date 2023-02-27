@@ -48,8 +48,8 @@ const babelOptions = {
     presets: ['@babel/preset-env', '@babel/preset-react'],
     plugins: [
         '@babel/plugin-proposal-class-properties',
-        '@babel/plugin-transform-runtime'
-    ]
+        '@babel/plugin-transform-runtime',
+    ],
 };
 
 function handleError (error) {
@@ -69,7 +69,7 @@ gulp.task('compile', gulp.parallel('copy',
 
         gulp.src(['src/index.jsx'])
             .pipe(gulp.dest('dist')),
-        gulp.src(['craco.config.js', 'modulefederation.config.js', 'searchI18n.js'])
+        gulp.src(['craco.config.js', 'modulefederation.config.js', 'searchI18n.js', 'craco-module-federation.js'])
             .pipe(gulp.dest('dist')),
     ])
 ));

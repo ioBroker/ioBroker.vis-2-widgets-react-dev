@@ -11,7 +11,7 @@ See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
 -->
 
 ## Changelog
-### 0.3.13 (2023-02-27)
+### **WORK IN PROGRESS**
 * (dilesoft) Try to fix error in webpack
 
 ### 0.3.11 (2023-02-22)
