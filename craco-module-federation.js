@@ -1,11 +1,11 @@
-const webpack = require('webpack');
+// const webpack = require('webpack');
 const paths = require('react-scripts/config/paths');
 
 const getModuleFederationConfigPath = (additionalPaths = []) => {
     const path = require('path');
     const fs = require('fs');
     const appDirectory = fs.realpathSync(process.cwd());
-    const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
+    const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
     const moduleFederationConfigFiles = [
         'modulefederation.config.js',
@@ -32,19 +32,19 @@ module.exports = {
                 plugin => plugin.constructor.name === 'HtmlWebpackPlugin'
             );
 
+            const myModule = require(moduleFederationConfigPath);
+
             htmlWebpackPlugin.userOptions = {
                 ...htmlWebpackPlugin.userOptions,
                 publicPath: paths.publicUrlOrPath,
-                excludeChunks: [require(moduleFederationConfigPath).name],
+                excludeChunks: [myModule.name],
             };
 
             const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
             webpackConfig.plugins = [
                 ...webpackConfig.plugins,
-                new ModuleFederationPlugin(
-                    require(moduleFederationConfigPath)
-                ),
+                new ModuleFederationPlugin(myModule),
             ];
 
             // webpackConfig.module = {
