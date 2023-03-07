@@ -1,10 +1,5 @@
 import React from 'react';
 
-import {
-    Card,
-    CardContent,
-} from '@mui/material';
-
 import { I18n } from '@iobroker/adapter-react-v5';
 
 class visRxWidget extends React.Component {
@@ -64,7 +59,10 @@ class visRxWidget extends React.Component {
         return value === undefined || value === null ? '' : value.toString();
     }
 
-    wrapContent(content, addToHeader, cardContentStyle, headerStyle, onCardClick) {
+    wrapContent(content, addToHeader, cardContentStyle, headerStyle, onCardClick, components) {
+        const Card = components.Card;
+        const CardContent = components.CardContent;
+
         return <Card
             style={{ width: 'calc(100% - 8px)', height: 'calc(100% - 8px)', margin: 4 }}
             onClick={onCardClick}
