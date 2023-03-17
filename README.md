@@ -11,7 +11,7 @@ See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 0.3.16 (2023-03-17)
 * (bluefox) Added developer settings: proxy
 
 ### 0.3.15 (2023-03-07)
