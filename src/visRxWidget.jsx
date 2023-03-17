@@ -23,6 +23,13 @@ class visRxWidget extends React.Component {
         return '';
     }
 
+    static getText(text) {
+        if (typeof text === 'object') {
+            return text[I18n.getLanguage()] || text.en;
+        }
+        return text;
+    }
+
     static t(key, ...args) {
         return I18n.t(`${this.getI18nPrefix()}${key}`, ...args);
     }
@@ -147,6 +154,12 @@ class visRxWidget extends React.Component {
     componentWillUnmount() {
         this.linkContext.IDs.forEach(oid =>
             this.props.socket.unsubscribeState(oid, this.onStateChanged));
+    }
+
+    getWidgetView(view, props) {
+        return <div style={{ width: '100%', height: '100%' }}>
+            DEMO VIEW
+        </div>;
     }
 
     render() {
