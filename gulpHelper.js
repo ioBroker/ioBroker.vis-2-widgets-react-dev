@@ -226,7 +226,10 @@ function npmInstall(src) {
 }
 
 function buildWidgets(root, src) {
-    src = src || './src-widgets/';
+    if (root.endsWith('/')) {
+        root = root.substring(0, root.length - 1);
+    }
+    src = src || `${root}/src-widgets/`;
     const version = JSON.parse(fs.readFileSync(`${root}/package.json`).toString('utf8')).version;
     const data    = JSON.parse(fs.readFileSync(`${src}package.json`).toString('utf8'));
 
@@ -237,11 +240,11 @@ function buildWidgets(root, src) {
     try {
         // we have bug, that federation requires version number in @mui/material/styles, so we have to change it
         // read version of @mui/material and write it to @mui/material/styles
-        const muiStyleVersion = JSON.parse(fs.readFileSync(`${root}/src-widgets/node_modules/@mui/material/styles/package.json`).toString('utf8'));
+        const muiStyleVersion = JSON.parse(fs.readFileSync(`${src}node_modules/@mui/material/styles/package.json`).toString('utf8'));
         if (!muiStyleVersion.version) {
-            const muiVersion = JSON.parse(fs.readFileSync(`${root}/src-widgets/node_modules/@mui/material/package.json`).toString('utf8'));
+            const muiVersion = JSON.parse(fs.readFileSync(`${src}node_modules/@mui/material/package.json`).toString('utf8'));
             muiStyleVersion.version = muiVersion.version;
-            fs.writeFileSync(`${root}/src-widgets/node_modules/@mui/material/styles/package.json`, JSON.stringify(muiStyleVersion, null, 2));
+            fs.writeFileSync(`${src}node_modules/@mui/material/styles/package.json`, JSON.stringify(muiStyleVersion, null, 2));
         }
     } catch (e) {
         console.error(`Cannot read mui version: ${e}`);
