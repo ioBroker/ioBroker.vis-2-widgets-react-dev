@@ -1,6 +1,6 @@
 {
   "name": "@iobroker/vis-2-widgets-react-dev",
-  "version": "0.3.18",
+  "version": "0.3.19",
   "description": "React classes to develop admin interfaces for ioBroker with react.",
   "author": {
     "name": "bluefox",
