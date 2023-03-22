@@ -11,6 +11,12 @@ const babel = require('gulp-babel');
 const sourcemaps = require('gulp-sourcemaps');
 const typescript = require('gulp-typescript');
 const fs = require('fs');
+const { deleteFoldersRecursive } = require('./gulpHelper');
+
+gulp.task('clean', done => {
+    deleteFoldersRecursive(`${__dirname}/dist`);
+    done();
+});
 
 gulp.task('copy', () => Promise.all([
     gulp.src(['src/**/*.d.ts']).pipe(gulp.dest('dist')),
@@ -69,9 +75,9 @@ gulp.task('compile', gulp.parallel('copy',
 
         gulp.src(['src/index.jsx'])
             .pipe(gulp.dest('dist')),
-        gulp.src(['craco.config.js', 'modulefederation.config.js', 'searchI18n.js', 'craco-module-federation.js'])
+        gulp.src(['craco.config.js', 'modulefederation.config.js', 'searchI18n.js', 'craco-module-federation.js', 'gulpHelper.js'])
             .pipe(gulp.dest('dist')),
     ])
 ));
 
-gulp.task('default', gulp.series('compile'));
+gulp.task('default', gulp.series('clean', 'compile'));
