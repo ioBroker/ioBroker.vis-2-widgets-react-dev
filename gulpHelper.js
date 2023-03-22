@@ -1,4 +1,5 @@
 const fs = require('fs');
+const cp = require('child_process');
 
 function ignoreFiles(src, doNotIgnoreSvg, doNotIgnoreMap) {
     src = src || './src-widgets/';
@@ -194,8 +195,90 @@ function deleteFoldersRecursive(path, exceptions) {
     }
 }
 
+function npmInstall(src) {
+    src = src || './src-widgets/';
+    return new Promise((resolve, reject) => {
+        // Install node modules
+        const cwd = src.replace(/\\/g, '/');
+
+        const cmd = `npm install -f`;
+        console.log(`"${cmd} in ${cwd}`);
+
+        // System call used for update of js-controller itself,
+        // because during installation npm packet will be deleted too, but some files must be loaded even during the install process.
+        const exec = cp.exec;
+        const child = exec(cmd, {cwd});
+
+        child.stderr.pipe(process.stderr);
+        child.stdout.pipe(process.stdout);
+
+        child.on('exit', (code /* , signal */) => {
+            // code 1 is strange error that cannot be explained. Everything is installed but error :(
+            if (code && code !== 1) {
+                reject(`Cannot install: ${code}`);
+            } else {
+                console.log(`"${cmd} in ${cwd} finished.`);
+                // command succeeded
+                resolve();
+            }
+        });
+    });
+}
+
+function buildWidgets(root, src) {
+    src = src || './src-widgets/';
+    const version = JSON.parse(fs.readFileSync(`${root}/package.json`).toString('utf8')).version;
+    const data    = JSON.parse(fs.readFileSync(`${src}package.json`).toString('utf8'));
+
+    data.version = version;
+
+    fs.writeFileSync(`${src}package.json`, JSON.stringify(data, null, 4));
+
+    try {
+        // we have bug, that federation requires version number in @mui/material/styles, so we have to change it
+        // read version of @mui/material and write it to @mui/material/styles
+        const muiStyleVersion = JSON.parse(fs.readFileSync(`${root}/src-widgets/node_modules/@mui/material/styles/package.json`).toString('utf8'));
+        if (!muiStyleVersion.version) {
+            const muiVersion = JSON.parse(fs.readFileSync(`${root}/src-widgets/node_modules/@mui/material/package.json`).toString('utf8'));
+            muiStyleVersion.version = muiVersion.version;
+            fs.writeFileSync(`${root}/src-widgets/node_modules/@mui/material/styles/package.json`, JSON.stringify(muiStyleVersion, null, 2));
+        }
+    } catch (e) {
+        console.error(`Cannot read mui version: ${e}`);
+        return Promise.reject(`Cannot read mui version: ${e}`);
+    }
+
+    return new Promise((resolve, reject) => {
+        const options = {
+            stdio: 'pipe',
+            cwd: src,
+        };
+
+        console.log(options.cwd);
+
+        let script = `${src}node_modules/@craco/craco/dist/bin/craco.js`;
+        if (!fs.existsSync(script)) {
+            script = `${root}/node_modules/@craco/craco/dist/bin/craco.js`;
+        }
+        if (!fs.existsSync(script)) {
+            console.error(`Cannot find execution file: ${script}`);
+            reject(`Cannot find execution file: ${script}`);
+        } else {
+            const child = cp.fork(script, ['build'], options);
+            child.stdout.on('data', data => console.log(data.toString()));
+            child.stderr.on('data', data => console.log(data.toString()));
+            child.on('close', code => {
+                console.log(`child process exited with code ${code}`);
+                code ? reject(`Exit code: ${code}`) : resolve();
+            });
+        }
+    });
+}
+
 module.exports = {
     ignoreFiles,
     copyFiles,
+    buildWidgets,
+    npmInstall,
     deleteFoldersRecursive,
 };
