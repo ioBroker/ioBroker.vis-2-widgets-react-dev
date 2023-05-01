@@ -38,7 +38,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.11.15",
     "@mui/styles": "^5.11.13",
-    "@sentry/browser": "^7.46.0",
+    "@sentry/browser": "^7.50.0",
     "@sentry/integrations": "^7.43.0",
     "@types/iobroker": "^4.0.5",
     "node-dir": "^0.1.17",
