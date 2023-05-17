@@ -11,6 +11,9 @@ See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (bluefox) Packages updated
+
 ### 0.3.19 (2023-03-22)
 * (bluefox) Added gulp helper
 
