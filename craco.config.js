@@ -2,14 +2,14 @@
 // Usage in file craco.config.js:
 // module.exports = require('@iobroker/vis-2-widgets-react-dev/craco.config.js');
 
-const CracoEsbuildPlugin = require('craco-esbuild');
+// const CracoEsbuildPlugin = require('craco-esbuild');
 const { ProvidePlugin } = require('webpack');
 // const cracoModuleFederation = require('craco-module-federation');
 const cracoModuleFederation = require('./craco-module-federation'); // use local patched version
 
 module.exports = {
     plugins: [
-        { plugin: CracoEsbuildPlugin },
+//         { plugin: CracoEsbuildPlugin },
         {
             plugin: cracoModuleFederation,
             options: { useNamedChunkIds: true },

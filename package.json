@@ -34,13 +34,13 @@
   },
   "homepage": "https://github.com/ioBroker/ioBroker.vis-2-widgets-react-dev#readme",
   "dependencies": {
-    "@emotion/react": "^11.11.0",
+    "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.11.16",
-    "@mui/material": "^5.13.1",
+    "@mui/material": "^5.13.4",
     "@mui/styles": "^5.13.2",
-    "@sentry/browser": "^7.52.1",
-    "@sentry/integrations": "^7.52.1",
+    "@sentry/browser": "^7.54.0",
+    "@sentry/integrations": "^7.54.0",
     "@types/iobroker": "^4.0.5",
     "node-dir": "^0.1.17",
     "acorn": "^8.8.2",
@@ -57,12 +57,12 @@
     "@babel/preset-env": "^7.22.4",
     "@babel/preset-flow": "^7.21.4",
     "@babel/preset-react": "^7.22.3",
-    "@types/react": "^18.2.6",
+    "@types/react": "^18.2.8",
     "babel": "^6.23.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-typescript": "^6.0.0-alpha.1",
-    "typescript": "^5.0.4"
+    "typescript": "^5.1.3"
   }
 }
