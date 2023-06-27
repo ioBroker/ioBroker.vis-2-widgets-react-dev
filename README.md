@@ -1,4 +1,4 @@
-# Help ReactJS classes for development of vis widgets based on react
+# Help ReactJS classes for development of vis widgets based on ReactJS
 
 ## Development
 How to develop a vis widget based on React?
@@ -11,6 +11,9 @@ See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (bluefox) Packages updated
+
 ### 0.4.0 (2023-06-07)
 * (bluefox) Packages updated
 * (bluefox) Disable `craco-esbuild` plugin

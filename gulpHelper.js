@@ -179,6 +179,7 @@ function copyFiles(src) {
         `${src}build/static/js/*react-battery-gauge_dist_react-battery-gauge*.*`,
         `${src}build/static/js/*react-gauge-chart*.*`,
         `${src}build/static/js/*react-liquid-gauge*.*`,
+        `${src}build/static/js/*helpers_esm_asyncToGener*.*`,
     ];
 }
 
