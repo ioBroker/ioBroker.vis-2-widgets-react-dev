@@ -11,7 +11,7 @@ See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
 -->
 
 ## Changelog
-### 0.4.1 (2023-06-27)
+### 0.4.2 (2023-06-27)
 * (bluefox) Packages updated
 
 ### 0.4.0 (2023-06-07)
