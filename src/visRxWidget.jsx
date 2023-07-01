@@ -39,8 +39,8 @@ class visRxWidget extends React.Component {
     }
 
     // eslint-disable-next-line class-methods-use-this
-    renderWidgetBody() {
-
+    renderWidgetBody(props) {
+        return null;
     }
 
     // eslint-disable-next-line class-methods-use-this
@@ -164,7 +164,11 @@ class visRxWidget extends React.Component {
 
     render() {
         return <div style={{ width: this.state.style?.width, height: this.state.style?.height }}>
-            {this.renderWidgetBody()}
+            {this.renderWidgetBody({
+                widget: {
+
+                },
+            })}
         </div>;
     }
 }
