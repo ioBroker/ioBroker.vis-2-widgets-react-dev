@@ -56,8 +56,8 @@ class visRxWidget extends React.Component {
             } else {
                 value = Math.round(value * 100) / 100;
             }
-            if (this.props.systemConfig?.common) {
-                if (this.props.systemConfig.common.isFloatComma) {
+            if (this.props.context.systemConfig?.common) {
+                if (this.props.context.systemConfig.common.isFloatComma) {
                     value = value.toString().replace('.', ',');
                 }
             }
@@ -110,10 +110,10 @@ class visRxWidget extends React.Component {
     }
 
     getIdSubscribeState = (id, cb) => {
-        return this.props.socket.getState(id)
+        return this.props.context.socket.getState(id)
             .then(result => {
                 cb(id, result);
-                return this.props.socket.subscribeState(id, (resultId, result) => cb(id, result));
+                return this.props.context.socket.subscribeState(id, (resultId, result) => cb(id, result));
             });
     };
 
@@ -153,7 +153,7 @@ class visRxWidget extends React.Component {
 
     componentWillUnmount() {
         this.linkContext.IDs.forEach(oid =>
-            this.props.socket.unsubscribeState(oid, this.onStateChanged));
+            this.props.context.socket.unsubscribeState(oid, this.onStateChanged));
     }
 
     getWidgetView(view, props) {
