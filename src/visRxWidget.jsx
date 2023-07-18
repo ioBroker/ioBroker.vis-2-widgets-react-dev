@@ -24,7 +24,7 @@ class visRxWidget extends React.Component {
     }
 
     static getText(text) {
-        if (typeof text === 'object') {
+        if (text && typeof text === 'object') {
             return text[I18n.getLanguage()] || text.en;
         }
         return text;
