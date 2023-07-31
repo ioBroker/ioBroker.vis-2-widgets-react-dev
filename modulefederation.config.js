@@ -40,7 +40,7 @@ function makeFederation(name, exposes, eager, _shared) {
         '@iobroker/adapter-react-v5',
         'react-ace',
         '@iobroker/vis-2-widgets-react-dev',
-        ...(_shared || [])
+        ...(_shared || []),
     ];
 
     return {
