@@ -1,8 +1,44 @@
 import React from 'react';
 
+import {
+    Card,
+    CardContent,
+} from '@mui/material';
+
 import { I18n } from '@iobroker/adapter-react-v5';
 
+const POSSIBLE_MUI_STYLES = [
+    'background-color',
+    'border',
+    'background',
+    'background-image',
+    'background-position',
+    'background-repeat',
+    'background-size',
+    'background-clip',
+    'background-origin',
+    'color',
+    'box-sizing',
+    'border-width',
+    'border-style',
+    'border-color',
+    'border-radius',
+    'box-shadow',
+    'text-align',
+    'text-shadow',
+    'font-family',
+    'font-size',
+    'font-weight',
+    'line-height',
+    'font-style',
+    'font-variant',
+    'letter-spacing',
+    'word-spacing',
+];
+
 class visRxWidget extends React.Component {
+    static POSSIBLE_MUI_STYLES = POSSIBLE_MUI_STYLES;
+
     constructor(props) {
         super(props);
         this.onStateChanged = this.onStateChanged.bind(this);
@@ -67,24 +103,51 @@ class visRxWidget extends React.Component {
     }
 
     wrapContent(content, addToHeader, cardContentStyle, headerStyle, onCardClick, components) {
-        const Card = components.Card;
-        const CardContent = components.CardContent;
+        const MyCard = components?.Card || Card;
+        const MyCardContent = components?.CardContent || CardContent;
 
-        return <Card
-            style={{ width: 'calc(100% - 8px)', height: 'calc(100% - 8px)', margin: 4 }}
+        const style = {
+            width: 'calc(100% - 8px)',
+            height: 'calc(100% - 8px)',
+            margin: 4,
+            ...this.props.customSettings?.viewStyle?.visCard,
+        };
+        // apply style from the element
+        Object.keys(this.state.rxStyle).forEach(attr => {
+            const value = this.state.rxStyle[attr];
+            if (value !== null &&
+                value !== undefined &&
+                POSSIBLE_MUI_STYLES.includes(attr)
+            ) {
+                attr = attr.replace(
+                    /(-\w)/g,
+                    text => text[1].toUpperCase(),
+                );
+                style[attr] = value;
+            }
+        });
+
+        this.wrappedContent = true;
+
+        return <MyCard
+            className="vis_rx_widget_card"
+            style={style}
             onClick={onCardClick}
         >
-            <CardContent
+            <MyCardContent
+                className="vis_rx_widget_card_content"
                 style={{
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    height: '100%',
+                    height: 'calc(100% - 32px)',
+                    paddingBottom: 16,
                     position: 'relative',
                     ...cardContentStyle,
                 }}
             >
-                {this.state.rxData.name ? <div
+                {this.state.rxData.widgetTitle ? <div
+                    className="vis_rx_widget_card_name"
                     style={{
                         display: 'flex',
                         justifyContent: 'space-between',
@@ -93,6 +156,7 @@ class visRxWidget extends React.Component {
                     }}
                 >
                     <div
+                        className="vis_rx_widget_card_name_div"
                         style={{
                             fontSize: 24,
                             paddingTop: 0,
@@ -100,13 +164,13 @@ class visRxWidget extends React.Component {
                             ...headerStyle,
                         }}
                     >
-                        {this.state.rxData.name}
+                        {this.state.rxData.widgetTitle}
                     </div>
                     {addToHeader || null}
                 </div> : (addToHeader || null)}
                 {content}
-            </CardContent>
-        </Card>;
+            </MyCardContent>
+        </MyCard>;
     }
 
     getIdSubscribeState = (id, cb) => {
