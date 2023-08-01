@@ -42,7 +42,7 @@
     "@mui/styles": "^5.14.1",
     "@sentry/browser": "^7.60.1",
     "@sentry/integrations": "^7.60.1",
-    "@types/iobroker": "^4.0.5",
+    "@types/iobroker": "^5.0.6",
     "node-dir": "^0.1.17",
     "acorn": "^8.10.0",
     "acorn-jsx": "^5.3.2",
