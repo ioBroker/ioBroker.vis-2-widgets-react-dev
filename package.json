@@ -41,7 +41,7 @@
     "@mui/material": "^5.14.7",
     "@mui/styles": "^5.14.7",
     "@sentry/browser": "^7.60.1",
-    "@sentry/integrations": "^7.60.1",
+    "@sentry/integrations": "^7.66.0",
     "@types/iobroker": "^4.0.5",
     "node-dir": "^0.1.17",
     "acorn": "^8.10.0",
