@@ -40,7 +40,7 @@
     "@mui/icons-material": "^5.14.11",
     "@mui/material": "^5.14.11",
     "@mui/styles": "^5.14.11",
-    "@sentry/browser": "^7.60.1",
+    "@sentry/browser": "^7.72.0",
     "@sentry/integrations": "^7.60.1",
     "@types/iobroker": "^4.0.5",
     "node-dir": "^0.1.17",
