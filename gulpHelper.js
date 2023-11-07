@@ -128,6 +128,7 @@ function ignoreSvgFiles(src) {
         `!${src}build/static/media/Workspace.*.svg`,
     ];
 }
+
 function ignoreFiles(src, doNotIgnoreSvg, doNotIgnoreMap) {
     src = src || './src-widgets/';
     if (!src.endsWith('/')) {
@@ -194,7 +195,7 @@ function deleteFoldersRecursive(path, exceptions) {
 
             const stat = fs.statSync(curPath);
             if (stat.isDirectory()) {
-                deleteFoldersRecursive(curPath);
+                deleteFoldersRecursive(curPath, exceptions);
                 fs.rmdirSync(curPath);
             } else {
                 fs.unlinkSync(curPath);
