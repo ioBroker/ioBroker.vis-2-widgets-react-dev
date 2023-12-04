@@ -11,6 +11,9 @@ See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (foxriver76) port to `@iobroker/types`
+
 ### 1.0.1 (2023-11-07)
 * (bluefox) Corrected error in deleteFoldersRecursive
 
