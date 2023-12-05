@@ -1,12 +1,20 @@
 const makeShared = (pkgs, eager) => {
     const result = {};
     pkgs.forEach(
-        packageName => {
-            result[packageName] = {
-                requiredVersion: '*',
-                singleton: true,
-                eager,
-            };
+        packageObj => {
+            if (typeof packageObj === 'string') {
+                result[packageObj] = {
+                    requiredVersion: '*',
+                    singleton: true,
+                    eager,
+                };
+            } else {
+                result[packageObj.name] = {
+                    requiredVersion: packageObj.requiredVersion || '*',
+                    singleton: packageObj.singleton !== undefined ? packageObj.singleton : true,
+                    eager: packageObj.eager !== undefined ? packageObj.eager : eager,
+                };
+            }
         },
     );
 
@@ -32,7 +40,10 @@ function makeFederation(name, exposes, eager, _shared) {
         'react-dom/client',
         'clsx',
         '@mui/material',
-        '@mui/styles',
+        {
+            name: '@mui/styles',
+            requiredVersion: '5.14.14'
+        },
         '@mui/system',
         '@mui/material/styles',
         '@mui/icons-material',
