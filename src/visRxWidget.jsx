@@ -226,6 +226,10 @@ class visRxWidget extends React.Component {
         </div>;
     }
 
+    getWidgetInWidget(view, wid, options) {
+        return null;
+    }
+
     render() {
         return <div style={{ width: this.state.style?.width, height: this.state.style?.height }}>
             {this.renderWidgetBody({
