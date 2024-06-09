@@ -39,7 +39,7 @@
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.19",
     "@mui/material": "5.14.14",
-    "@mui/styles": "5.14.14",
+    "@mui/styles": "5.15.19",
     "@sentry/browser": "^8.8.0",
     "node-dir": "^0.1.17",
     "acorn": "^8.11.3",
