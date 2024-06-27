@@ -4,12 +4,14 @@ const makeShared = (pkgs, eager) => {
         packageObj => {
             if (typeof packageObj === 'string') {
                 result[packageObj] = {
+                    version: '*',
                     requiredVersion: '*',
                     singleton: true,
                     eager,
                 };
             } else {
                 result[packageObj.name] = {
+                    version: packageObj.version || '*',
                     requiredVersion: packageObj.requiredVersion || '*',
                     singleton: packageObj.singleton !== undefined ? packageObj.singleton : true,
                     eager: packageObj.eager !== undefined ? packageObj.eager : eager,
