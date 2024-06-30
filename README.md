@@ -11,7 +11,7 @@ See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 2.0.1 (2024-06-30)
 * (Steiger04) Removed version warning
 
 ### 2.0.0 (2024-06-30)
