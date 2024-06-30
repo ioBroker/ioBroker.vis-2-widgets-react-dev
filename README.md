@@ -11,6 +11,9 @@ See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (Steiger04) Removed version warning
+
 ### 2.0.0 (2024-06-30)
 * (bluefox) Removed dependency to `@mui/styles`
 
