@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import {
     Card,
@@ -36,7 +36,7 @@ const POSSIBLE_MUI_STYLES = [
     'word-spacing',
 ];
 
-class visRxWidget extends React.Component {
+class visRxWidget extends Component {
     static POSSIBLE_MUI_STYLES = POSSIBLE_MUI_STYLES;
 
     constructor(props) {
