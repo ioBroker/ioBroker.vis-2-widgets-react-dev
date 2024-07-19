@@ -1,16 +1,20 @@
 import React from 'react';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 
-import GenericApp from '@iobroker/adapter-react-v5/GenericApp';
-import { i18n as I18n, Loader } from '@iobroker/adapter-react-v5';
+import {
+    I18n,
+    Loader,
+    GenericApp,
+    type GenericAppProps,
+} from '@iobroker/adapter-react-v5';
 
 class WidgetDemoApp extends GenericApp {
-    constructor(props) {
+    constructor(props: GenericAppProps) {
         const extendedProps = { ...props };
         super(props, extendedProps);
 
         (async () => {
-            this.translations = {
+            const translations = {
                 en: require('@iobroker/adapter-react-v5/i18n/en.json'),
                 de: require('@iobroker/adapter-react-v5/i18n/de.json'),
                 ru: require('@iobroker/adapter-react-v5/i18n/ru.json'),
@@ -24,10 +28,10 @@ class WidgetDemoApp extends GenericApp {
             };
 
             // init translations
-            I18n.setTranslations(this.translations);
+            I18n.setTranslations(translations);
         })();
 
-        I18n.setLanguage((navigator.language || navigator.userLanguage || 'en').substring(0, 2).toLowerCase());
+        I18n.setLanguage((navigator.language || 'en').substring(0, 2).toLowerCase() as ioBroker.Languages);
     }
 
     renderWidget() {
@@ -38,7 +42,7 @@ class WidgetDemoApp extends GenericApp {
         if (!this.state.loaded) {
             return <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={this.state.theme}>
-                    <Loader theme={this.state.themeType} />
+                    <Loader themeType={this.state.themeType} />
                 </ThemeProvider>
             </StyledEngineProvider>;
         }

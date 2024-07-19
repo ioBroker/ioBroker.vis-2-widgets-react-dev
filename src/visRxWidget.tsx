@@ -7,6 +7,23 @@ import {
 
 import { I18n } from '@iobroker/adapter-react-v5';
 
+import {
+    AnyWidgetId,
+    WidgetData,
+    WidgetStyle,
+    RxRenderWidgetProps,
+    VisRxWidgetStateValues,
+    VisLinkContextBinding,
+    VisLinkContextItem,
+    VisLinkContextSignalItem,
+    RxWidgetInfoAttributesField,
+    StateID,
+    RxWidgetInfo,
+    RxWidgetInfoAttributesFieldWithType,
+    VisViewProps,
+    VisBaseWidgetProps,
+} from '@iobroker/types-vis-2';
+
 const POSSIBLE_MUI_STYLES = [
     'background-color',
     'border',
@@ -36,56 +53,96 @@ const POSSIBLE_MUI_STYLES = [
     'word-spacing',
 ];
 
-class visRxWidget extends Component {
+interface VisRxWidgetState {
+    values: VisRxWidgetStateValues;
+    data: WidgetData;
+    style: WidgetStyle;
+    rxData: WidgetData;
+    rxStyle: WidgetStyle;
+}
+
+interface VisRxWidgetProps extends VisBaseWidgetProps {
+    data: WidgetData;
+    style: WidgetStyle;
+}
+
+class visRxWidget extends Component<VisRxWidgetProps, VisRxWidgetState> {
     static POSSIBLE_MUI_STYLES = POSSIBLE_MUI_STYLES;
 
-    constructor(props) {
+    // eslint-disable-next-line no-unused-vars
+    private wrappedContent: boolean | undefined;
+
+    private refService: React.RefObject<HTMLDivElement> = React.createRef();
+
+    private linkContext: {
+        IDs: string[];
+        bindings: Record<StateID, VisLinkContextBinding[]>;
+        visibility: Record<string, VisLinkContextItem[]>;
+        lastChanges: Record<string, VisLinkContextItem[]>;
+        signals: Record<string, VisLinkContextSignalItem[]>;
+        widgetAttrInfo: Record<string, RxWidgetInfoAttributesField>;
+    };
+
+    constructor(props: VisRxWidgetProps) {
         super(props);
         this.onStateChanged = this.onStateChanged.bind(this);
         this.state = {
-            ...props,
             values: {},
             data: JSON.parse(JSON.stringify(props.data || {})),
             style: JSON.parse(JSON.stringify(props.style || {})),
             rxData: JSON.parse(JSON.stringify(props.data || {})),
             rxStyle: JSON.parse(JSON.stringify(props.style || {})),
         };
+
         this.linkContext = {
             IDs: [],
+            bindings: {},
+            visibility: {},
+            lastChanges: {},
+            signals: {},
+            widgetAttrInfo: {},
         };
+    }
+
+    // eslint-disable-next-line class-methods-use-this
+    getWidgetInfo(): Readonly<RxWidgetInfo> {
+        throw new Error('not implemented');
     }
 
     static getI18nPrefix() {
         return '';
     }
 
-    static getText(text) {
-        if (text && typeof text === 'object') {
+    static getText(text: ioBroker.StringOrTranslated): string {
+        if (!text) {
+            return '';
+        }
+        if (typeof text === 'object') {
             return text[I18n.getLanguage()] || text.en;
         }
         return text;
     }
 
-    static t(key, ...args) {
+    // eslint-disable-next-line no-unused-vars
+    static t(key: ioBroker.StringOrTranslated, ...args: any[]): string {
         return I18n.t(`${this.getI18nPrefix()}${key}`, ...args);
     }
 
-    static getLanguage() {
+    static getLanguage(): ioBroker.Languages {
         return I18n.getLanguage();
     }
 
     // eslint-disable-next-line class-methods-use-this
-    renderWidgetBody(props) {
+    renderWidgetBody(_props: RxRenderWidgetProps): React.JSX.Element | null {
         return null;
     }
 
     // eslint-disable-next-line class-methods-use-this
-    // @ts-ignore
-    onStateUpdated(id, state) {
+    onStateUpdated(_id: string, _state: ioBroker.State | null): void {
 
     }
 
-    formatValue(value, round) {
+    formatValue(value: number | string | null, round?: number): string {
         if (typeof value === 'number') {
             if (round === 0) {
                 value = Math.round(value);
@@ -102,8 +159,32 @@ class visRxWidget extends Component {
         return value === undefined || value === null ? '' : value.toString();
     }
 
-    wrapContent(content, addToHeader, cardContentStyle, headerStyle, onCardClick, components) {
-        const MyCard = components?.Card || Card;
+    wrapContent(
+        content: React.ReactNode,
+        addToHeader?: React.ReactNode | null,
+        cardContentStyle?: React.CSSProperties,
+        headerStyle?: React.CSSProperties,
+        onCardClick?: (e: React.MouseEvent<HTMLDivElement>) => void,
+        components?: {
+            Card?: React.FC<{
+                className?: string;
+                style?: React.CSSProperties;
+                onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+                children?: React.ReactNode;
+            }>;
+            CardContent?: React.FC<{
+                className?: string;
+                style?: React.CSSProperties;
+                children?: React.ReactNode;
+            }>;
+        },
+    ): React.JSX.Element {
+        const MyCard: React.FC<{
+            className?: string;
+            style?: React.CSSProperties;
+            onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+            children: React.ReactNode;
+        }> = components?.Card || Card;
         const MyCardContent = components?.CardContent || CardContent;
 
         const style = {
@@ -114,7 +195,7 @@ class visRxWidget extends Component {
         };
         // apply style from the element
         Object.keys(this.state.rxStyle).forEach(attr => {
-            const value = this.state.rxStyle[attr];
+            const value = (this.state.rxStyle as Record<string, string>)[attr];
             if (value !== null &&
                 value !== undefined &&
                 POSSIBLE_MUI_STYLES.includes(attr)
@@ -173,21 +254,45 @@ class visRxWidget extends Component {
         </MyCard>;
     }
 
-    getIdSubscribeState = (id, cb) => {
-        return this.props.context.socket.getState(id)
-            .then(result => {
-                cb(id, result);
-                return this.props.context.socket.subscribeState(id, (resultId, result) => cb(id, result));
-            });
+    // used for simulation of VisRxWidget
+    private getIdSubscribeState = async (
+        id: string,
+        cb: (id: string, result: ioBroker.State | null) => void,
+    ) => {
+        const result = await this.props.context.socket.getState(id);
+        this.props.context.socket.subscribeState(id, () =>
+            cb(id, result));
     };
 
-    onStateChanged(id, state) {
+    onStateChanged(id: string, state: ioBroker.State | null | undefined) {
         if (!state) {
             return;
         }
-        const values = JSON.parse(JSON.stringify(this.state.values));
-        Object.keys(state).forEach(key =>
-            values[`${id}.${key}`] = state[key]);
+        const values: VisRxWidgetStateValues = JSON.parse(JSON.stringify(this.state.values));
+        if (state.val !== undefined) {
+            values[`${id}.val`] = state.val;
+        }
+        if (state.ts !== undefined) {
+            values[`${id}.ts`] = state.ts;
+        }
+        if (state.from !== undefined) {
+            values[`${id}.from`] = state.from;
+        }
+        if (state.lc !== undefined) {
+            values[`${id}.lc`] = state.lc;
+        }
+        if (state.ts !== undefined) {
+            values[`${id}.ts`] = state.ts;
+        }
+        // if (state.user !== undefined) {
+        //     values[`${id}.user`] = state.user;
+        // }
+        // if (state.ack !== undefined) {
+        //     values[`${id}.ack`] = state.ack;
+        // }
+        // if (state.q !== undefined) {
+        //     values[`${id}.q`] = state.q;
+        // }
 
         this.onStateUpdated(id, state);
 
@@ -197,7 +302,7 @@ class visRxWidget extends Component {
     async componentDidMount() {
         this.getWidgetInfo()?.visAttrs?.forEach(group =>
             group?.fields?.forEach(field => {
-                if (field?.type === 'id') {
+                if ((field as RxWidgetInfoAttributesFieldWithType)?.type === 'id') {
                     Object.keys(this.state.data).forEach(dataKey => {
                         // do not use here \d instead of [0-9] as it will be wrong compiled
                         if (dataKey.match(new RegExp(`^${field.name}[0-9]*$`))) {
@@ -220,21 +325,43 @@ class visRxWidget extends Component {
             this.props.context.socket.unsubscribeState(oid, this.onStateChanged));
     }
 
-    getWidgetView(view, props) {
+    getWidgetView(_view: string, _props?: Partial<VisViewProps>) {
         return <div style={{ width: '100%', height: '100%' }}>
             DEMO VIEW
         </div>;
     }
 
-    getWidgetInWidget(view, wid, options) {
+    getWidgetInWidget(
+        _view: string,
+        _wid: AnyWidgetId,
+        _props?: {
+            index?: number;
+            refParent?: React.RefObject<HTMLDivElement>;
+            isRelative?: boolean;
+        },
+    ): React.JSX.Element | null {
         return null;
     }
 
     render() {
-        return <div style={{ width: this.state.style?.width, height: this.state.style?.height }}>
+        return <div
+            ref={this.refService}
+            style={{
+                width: this.state.style?.width as string,
+                height: this.state.style?.height as string,
+            }}
+        >
             {this.renderWidgetBody({
+                className: '',
+                overlayClassNames: [],
+                style: {},
+                id: 'defaultID',
+                refService: this.refService,
                 widget: {
-
+                    tpl: 'tplDemo',
+                    data: {},
+                    style: {},
+                    widgetSet: 'demoSet',
                 },
             })}
         </div>;

@@ -2,10 +2,8 @@
 // Usage in file craco.config.js:
 // module.exports = require('@iobroker/vis-2-widgets-react-dev/craco.config.js');
 
-// const CracoEsbuildPlugin = require('craco-esbuild');
 const { ProvidePlugin } = require('webpack');
-// const cracoModuleFederation = require('craco-module-federation');
-const cracoModuleFederation = require('./craco-module-federation'); // use local patched version
+const cracoModuleFederation = require('./craco-module-federation'); // use a local patched version
 
 module.exports = {
     plugins: [
@@ -29,6 +27,10 @@ module.exports = {
         },
     },
     webpack: {
+        entry: './src/index.ts',
+        resolve: {
+            extensions: ['.tsx', '.ts', '.js', '.jsx'],
+        },
         output: {
             publicPath: 'auto',
         },
