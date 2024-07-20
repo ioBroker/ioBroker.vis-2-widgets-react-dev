@@ -9,7 +9,6 @@ import { I18n } from '@iobroker/adapter-react-v5';
 
 import {
     AnyWidgetId,
-    WidgetData,
     WidgetStyle,
     RxRenderWidgetProps,
     VisRxWidgetStateValues,
@@ -21,7 +20,7 @@ import {
     RxWidgetInfo,
     RxWidgetInfoAttributesFieldWithType,
     VisViewProps,
-    VisBaseWidgetProps, VisContext, Project, ViewCommand, ViewCommandOptions, VisLegacy, VisTheme,
+    VisBaseWidgetProps,
 } from '@iobroker/types-vis-2';
 
 const POSSIBLE_MUI_STYLES = [
@@ -53,15 +52,15 @@ const POSSIBLE_MUI_STYLES = [
     'word-spacing',
 ];
 
-interface VisRxWidgetState {
+interface VisRxWidgetState<T extends { widgetTitle?: string }> {
     values: VisRxWidgetStateValues;
-    data: WidgetData;
+    data: T;
     style: WidgetStyle;
-    rxData: WidgetData;
+    rxData: T;
     rxStyle: WidgetStyle;
 }
 
-class visRxWidget extends Component<VisBaseWidgetProps, VisRxWidgetState> {
+class visRxWidget<T extends { widgetTitle?: string }> extends Component<VisBaseWidgetProps, VisRxWidgetState<T>> {
     static POSSIBLE_MUI_STYLES = POSSIBLE_MUI_STYLES;
 
     // eslint-disable-next-line no-unused-vars
@@ -303,7 +302,7 @@ class visRxWidget extends Component<VisBaseWidgetProps, VisRxWidgetState> {
                     Object.keys(this.state.data).forEach(dataKey => {
                         // do not use here \d instead of [0-9] as it will be wrong compiled
                         if (dataKey.match(new RegExp(`^${field.name}[0-9]*$`))) {
-                            const oid = this.state.data[dataKey];
+                            const oid = (this.state.data as Record<string, string>)[dataKey];
                             if (!this.linkContext.IDs.includes(oid)) {
                                 this.linkContext.IDs.push(oid);
                             }
