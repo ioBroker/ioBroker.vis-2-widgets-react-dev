@@ -21,7 +21,7 @@ import {
     RxWidgetInfo,
     RxWidgetInfoAttributesFieldWithType,
     VisViewProps,
-    VisBaseWidgetProps,
+    VisBaseWidgetProps, VisContext, Project, ViewCommand, ViewCommandOptions, VisLegacy, VisTheme,
 } from '@iobroker/types-vis-2';
 
 const POSSIBLE_MUI_STYLES = [
@@ -61,12 +61,7 @@ interface VisRxWidgetState {
     rxStyle: WidgetStyle;
 }
 
-interface VisRxWidgetProps extends VisBaseWidgetProps {
-    data: WidgetData;
-    style: WidgetStyle;
-}
-
-class visRxWidget extends Component<VisRxWidgetProps, VisRxWidgetState> {
+class visRxWidget extends Component<VisBaseWidgetProps, VisRxWidgetState> {
     static POSSIBLE_MUI_STYLES = POSSIBLE_MUI_STYLES;
 
     // eslint-disable-next-line no-unused-vars
@@ -83,15 +78,17 @@ class visRxWidget extends Component<VisRxWidgetProps, VisRxWidgetState> {
         widgetAttrInfo: Record<string, RxWidgetInfoAttributesField>;
     };
 
-    constructor(props: VisRxWidgetProps) {
+    constructor(props: VisBaseWidgetProps) {
         super(props);
         this.onStateChanged = this.onStateChanged.bind(this);
+        const widget = this.props.context.views[this.props.view].widgets[this.props.id];
+
         this.state = {
             values: {},
-            data: JSON.parse(JSON.stringify(props.data || {})),
-            style: JSON.parse(JSON.stringify(props.style || {})),
-            rxData: JSON.parse(JSON.stringify(props.data || {})),
-            rxStyle: JSON.parse(JSON.stringify(props.style || {})),
+            data: JSON.parse(JSON.stringify(widget.data || {})),
+            style: JSON.parse(JSON.stringify(widget.style || {})),
+            rxData: JSON.parse(JSON.stringify(widget.data || {})),
+            rxStyle: JSON.parse(JSON.stringify(widget.style || {})),
         };
 
         this.linkContext = {

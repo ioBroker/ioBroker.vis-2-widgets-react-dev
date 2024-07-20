@@ -79,7 +79,6 @@ gulp.task('compile', gulp.parallel('copy',
             'craco-module-federation.js',
             'searchI18n.js',
             'gulpHelper.js',
-            'src/package.json'
         ])
             .pipe(gulp.dest('dist')),
     ])
