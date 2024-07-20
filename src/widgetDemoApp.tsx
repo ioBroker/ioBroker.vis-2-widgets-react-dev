@@ -8,29 +8,39 @@ import {
     type GenericAppProps,
 } from '@iobroker/adapter-react-v5';
 
+import langEn from '@iobroker/adapter-react-v5/i18n/en.json';
+import langDe from '@iobroker/adapter-react-v5/i18n/de.json';
+import langRu from '@iobroker/adapter-react-v5/i18n/ru.json';
+import langPt from '@iobroker/adapter-react-v5/i18n/pt.json';
+import langNl from '@iobroker/adapter-react-v5/i18n/nl.json';
+import langFr from '@iobroker/adapter-react-v5/i18n/fr.json';
+import langIt from '@iobroker/adapter-react-v5/i18n/it.json';
+import langEs from '@iobroker/adapter-react-v5/i18n/es.json';
+import langPl from '@iobroker/adapter-react-v5/i18n/pl.json';
+import langUk from '@iobroker/adapter-react-v5/i18n/pl.json';
+import langZh from '@iobroker/adapter-react-v5/i18n/zh-cn.json';
+
 class WidgetDemoApp extends GenericApp {
     constructor(props: GenericAppProps) {
         const extendedProps = { ...props };
         super(props, extendedProps);
 
-        (async () => {
-            const translations = {
-                en: require('@iobroker/adapter-react-v5/i18n/en.json'),
-                de: require('@iobroker/adapter-react-v5/i18n/de.json'),
-                ru: require('@iobroker/adapter-react-v5/i18n/ru.json'),
-                pt: require('@iobroker/adapter-react-v5/i18n/pt.json'),
-                nl: require('@iobroker/adapter-react-v5/i18n/nl.json'),
-                fr: require('@iobroker/adapter-react-v5/i18n/fr.json'),
-                it: require('@iobroker/adapter-react-v5/i18n/it.json'),
-                es: require('@iobroker/adapter-react-v5/i18n/es.json'),
-                pl: require('@iobroker/adapter-react-v5/i18n/pl.json'),
-                'zh-cn': require('@iobroker/adapter-react-v5/i18n/zh-cn.json'),
-            };
+        const translations = {
+            en: langEn,
+            de: langDe,
+            ru: langRu,
+            pt: langPt,
+            nl: langNl,
+            fr: langFr,
+            it: langIt,
+            es: langEs,
+            pl: langPl,
+            uk: langUk,
+            zh: langZh,
+        };
 
-            // init translations
-            I18n.setTranslations(translations);
-        })();
-
+        // init translations
+        I18n.setTranslations(translations);
         I18n.setLanguage((navigator.language || 'en').substring(0, 2).toLowerCase() as ioBroker.Languages);
     }
 
