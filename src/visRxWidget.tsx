@@ -327,12 +327,14 @@ class visRxWidget<T> extends Component<VisBaseWidgetProps, VisRxWidgetState<T>> 
             this.props.context.socket.unsubscribeState(oid, this.onStateChanged));
     }
 
+    // eslint-disable-next-line no-unused-vars
     getWidgetView(_view: string, _props?: Partial<VisViewProps>) {
         return <div style={{ width: '100%', height: '100%' }}>
             DEMO VIEW
         </div>;
     }
 
+    // eslint-disable-next-line no-unused-vars
     getWidgetInWidget(
         _view: string,
         _wid: AnyWidgetId,
