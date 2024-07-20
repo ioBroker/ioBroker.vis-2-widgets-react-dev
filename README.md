@@ -5,13 +5,112 @@ How to develop a vis widget based on React?
 
 See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
 
+## Migration v2 => v3
+- Add to import `import { getProps } from '@iobroker/vis-2-widgets-react-dev/visDevUtils';`
+- Add in constructor
+```
+    constructor(props) {
+        super(props);
+        this.refParent = React.createRef();
+
+        this.widgetProps = getProps(
+            {
+                socket: this.socket,
+                theme: this.state.theme,
+                refParent: this.refParent,
+            },
+            {
+                // Your test settings for widget
+                type: 'all',
+            },
+            {
+                // Your test styles for widget
+                width: 600,
+                height: 200,
+            },
+        );
+    }
+```
+- Modify renderer
+```
+    renderWidget() {
+        return <div
+            ref={this.refParent}
+            style={{
+                width: 600,
+                height: 200,
+            }}
+        >
+            <DemoWidget
+                {...this.widgetProps}
+            />
+        </div>;
+    }
+``` 
+
+Here is an example of the widget:
+
+```jsx
+import React from 'react';
+
+import WidgetDemoApp from '@iobroker/vis-2-widgets-react-dev/widgetDemoApp';
+import { I18n } from '@iobroker/adapter-react-v5';
+
+import { getProps } from '@iobroker/vis-2-widgets-react-dev/visDevUtils';
+
+import DemoWidget from './DemoWidget';
+import translations from './translations';
+
+class App extends WidgetDemoApp {
+    constructor(props) {
+        super(props);
+
+        // init translations
+        I18n.extendTranslations(translations);
+
+        this.refParent = React.createRef();
+
+        this.widgetProps = getProps(
+            {
+                socket: this.socket,
+                theme: this.state.theme,
+                refParent: this.refParent,
+            },
+            {
+                type: 'all',
+            },
+            {
+                width: 600,
+                height: 200,
+            },
+        );
+    }
+
+    renderWidget() {
+        return <div
+            ref={this.refParent}
+            style={{
+                width: 600,
+                height: 200,
+            }}
+        >
+            <DemoWidget
+                {...this.widgetProps}
+            />
+        </div>;
+    }
+}
+
+export default App;
+```
+
 <!--
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
 
 ## Changelog
-### 3.0.4 (2024-07-20)
+### **WORK IN PROGRESS**
 * (bluefox) Rewritten with typescript
 
 ### 2.0.2 (2024-07-10)
