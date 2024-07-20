@@ -138,6 +138,7 @@ class visRxWidget<T> extends Component<VisBaseWidgetProps, VisRxWidgetState<T>> 
 
     }
 
+    // eslint-disable-next-line no-unused-vars
     formatValue(value: number | string | null, round?: number): string {
         if (typeof value === 'number') {
             if (round === 0) {
@@ -155,6 +156,7 @@ class visRxWidget<T> extends Component<VisBaseWidgetProps, VisRxWidgetState<T>> 
         return value === undefined || value === null ? '' : value.toString();
     }
 
+    // eslint-disable-next-line no-unused-vars
     wrapContent(
         content: React.ReactNode,
         addToHeader?: React.ReactNode | null,
