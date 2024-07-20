@@ -36,7 +36,7 @@ class WidgetDemoApp extends GenericApp {
             es: langEs,
             pl: langPl,
             uk: langUk,
-            zh: langZh,
+            'zh-cn': langZh,
         };
 
         // init translations

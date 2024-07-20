@@ -81,6 +81,10 @@ gulp.task('compile', gulp.parallel('copy',
             'gulpHelper.js',
         ])
             .pipe(gulp.dest('dist')),
+        gulp.src([
+            'src/**/*.*',
+        ])
+            .pipe(gulp.dest('dist/src')),
     ])
 ));
 
