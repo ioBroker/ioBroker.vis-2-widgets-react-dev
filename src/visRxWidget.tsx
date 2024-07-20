@@ -52,7 +52,7 @@ const POSSIBLE_MUI_STYLES = [
     'word-spacing',
 ];
 
-interface VisRxWidgetState<T extends { widgetTitle?: string }> {
+interface VisRxWidgetState<T> {
     values: VisRxWidgetStateValues;
     data: T;
     style: WidgetStyle;
@@ -60,7 +60,7 @@ interface VisRxWidgetState<T extends { widgetTitle?: string }> {
     rxStyle: WidgetStyle;
 }
 
-class visRxWidget<T extends { widgetTitle?: string }> extends Component<VisBaseWidgetProps, VisRxWidgetState<T>> {
+class visRxWidget<T> extends Component<VisBaseWidgetProps, VisRxWidgetState<T>> {
     static POSSIBLE_MUI_STYLES = POSSIBLE_MUI_STYLES;
 
     // eslint-disable-next-line no-unused-vars
@@ -206,6 +206,10 @@ class visRxWidget<T extends { widgetTitle?: string }> extends Component<VisBaseW
 
         this.wrappedContent = true;
 
+        // support for extended option widgetTitle
+        // @ts-expect-error We know that widgetTitle could be a string
+        const widgetTitle: string | undefined = this.state.rxData.widgetTitle;
+
         return <MyCard
             className="vis_rx_widget_card"
             style={style}
@@ -223,7 +227,7 @@ class visRxWidget<T extends { widgetTitle?: string }> extends Component<VisBaseW
                     ...cardContentStyle,
                 }}
             >
-                {this.state.rxData.widgetTitle ? <div
+                {widgetTitle ? <div
                     className="vis_rx_widget_card_name"
                     style={{
                         display: 'flex',
@@ -241,7 +245,7 @@ class visRxWidget<T extends { widgetTitle?: string }> extends Component<VisBaseW
                             ...headerStyle,
                         }}
                     >
-                        {this.state.rxData.widgetTitle}
+                        {widgetTitle}
                     </div>
                     {addToHeader || null}
                 </div> : (addToHeader || null)}
@@ -299,7 +303,7 @@ class visRxWidget<T extends { widgetTitle?: string }> extends Component<VisBaseW
         this.getWidgetInfo()?.visAttrs?.forEach(group =>
             group?.fields?.forEach(field => {
                 if ((field as RxWidgetInfoAttributesFieldWithType)?.type === 'id') {
-                    Object.keys(this.state.data).forEach(dataKey => {
+                    Object.keys(this.state.data as Record<string, string>).forEach(dataKey => {
                         // do not use here \d instead of [0-9] as it will be wrong compiled
                         if (dataKey.match(new RegExp(`^${field.name}[0-9]*$`))) {
                             const oid = (this.state.data as Record<string, string>)[dataKey];
