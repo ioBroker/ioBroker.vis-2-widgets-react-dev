@@ -110,7 +110,7 @@ export default App;
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 3.0.5 (2024-07-20)
 * (bluefox) Rewritten with typescript
 
 ### 2.0.2 (2024-07-10)
