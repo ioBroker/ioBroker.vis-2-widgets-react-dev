@@ -110,6 +110,9 @@ export default App;
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (bluefox) Corrected `deleteFoldersRecursive` function
+
 ### 3.0.5 (2024-07-20)
 * (bluefox) Rewritten with typescript
 

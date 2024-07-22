@@ -196,6 +196,13 @@ function deleteFoldersRecursive(path, exceptions) {
             const stat = fs.statSync(curPath);
             if (stat.isDirectory()) {
                 deleteFoldersRecursive(curPath, exceptions);
+                if (exceptions?.length) {
+                    // check if the directory is empty
+                    const files = fs.readdirSync(curPath).filter(file => file !== '.' && file !== '..');
+                    if (files.length) {
+                        continue;
+                    }
+                }
                 fs.rmdirSync(curPath);
             } else {
                 fs.unlinkSync(curPath);
