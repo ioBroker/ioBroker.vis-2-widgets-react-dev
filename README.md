@@ -110,7 +110,7 @@ export default App;
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 3.0.7 (2024-07-23)
 * (bluefox) Optimization of packages
 
 ### 3.0.6 (2024-07-22)
