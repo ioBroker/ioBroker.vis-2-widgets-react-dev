@@ -46,7 +46,7 @@
     "acorn-jsx-walk": "^2.0.0"
   },
   "devDependencies": {
-    "@alcalzone/release-script": "^3.7.3",
+    "@alcalzone/release-script": "^3.8.0",
     "@iobroker/js-controller-common-db": "^6.0.9",
     "@alcalzone/release-script-plugin-license": "^3.7.0",
     "@babel/core": "^7.25.2",
