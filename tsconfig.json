@@ -36,5 +36,7 @@
       "./src/**/*.ts",
       "./src/**/*.d.ts"
     ],
-    "exclude": ["gulpfile.js"]
+    "exclude": [
+        "tasks.js"
+    ]
   }

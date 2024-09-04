@@ -1,25 +1,19 @@
 /**
- * Copyright 2018-2023 bluefox <dogafox@gmail.com>
+ * Copyright 2018-2024 bluefox <dogafox@gmail.com>
  *
  * MIT License
  *
  **/
 'use strict';
 
-const gulp  = require('gulp');
 const fs = require('node:fs');
-const { deleteFoldersRecursive } = require('./gulpHelper');
+const { deleteFoldersRecursive, copyFiles } = require('@iobroker/build-tools');
 
-gulp.task('clean', done => {
-    deleteFoldersRecursive(`${__dirname}/dist`);
-    done();
-});
-
-gulp.task('copy', () => Promise.all([
-    gulp.src(['src/**/*.d.ts']).pipe(gulp.dest('dist')),
-    gulp.src(['README.md']).pipe(gulp.dest('dist')),
-    gulp.src(['LICENSE']).pipe(gulp.dest('dist')),
-    new Promise(resolve => {
+function copyAllFiles() {
+    copyFiles(['src/**/*.d.ts'], 'dist');
+    copyFiles(['README.md'], 'dist');
+    copyFiles(['LICENSE'], 'dist');
+    return new Promise(resolve => {
         const package_ = require('./package.json');
         const packageSrc = require('./src/package.json');
         packageSrc.version = package_.version;
@@ -28,7 +22,7 @@ gulp.task('copy', () => Promise.all([
         fs.writeFileSync(`${__dirname}/dist/package.json`, JSON.stringify(packageSrc, null, 2));
         resolve();
     })
-]));
+}
 
 function compile() {
     return new Promise((resolve, reject) => {
@@ -69,23 +63,33 @@ function handleError (error) {
     this.emit('end');
 }
 
-gulp.task('compile', gulp.parallel('copy',
-//    'typedefs',
-    () => Promise.all([
-        compile(),
-        gulp.src([
-            'craco.config.js',
-            'modulefederation.config.js',
-            'craco-module-federation.js',
-            'searchI18n.js',
-            'gulpHelper.js',
-        ])
-            .pipe(gulp.dest('dist')),
-        gulp.src([
-            'src/**/*.*',
-        ])
-            .pipe(gulp.dest('dist/src')),
-    ])
-));
+function compileAll() {
+    return compile()
+        .then(() => {
+            copyFiles([
+                'craco.config.js',
+                'modulefederation.config.js',
+                'craco-module-federation.js',
+                'searchI18n.js',
+                'gulpHelper.js',
+            ], 'dist');
 
-gulp.task('default', gulp.series('clean', 'compile'));
+            copyFiles([
+                    'src/**/*.*',
+                ], 'dist/src');
+        });
+}
+
+if (process.argv.includes('--clean')) {
+    deleteFoldersRecursive(`${__dirname}/dist`);
+} else if (process.argv.includes('--copy')) {
+    copyAllFiles()
+        .catch(e => console.error(`Cannot copy files: ${e}`));
+} else if (process.argv.includes('--compile')) {
+    compileAll()
+        .catch(e => console.error(`Cannot compile: ${e}`));
+} else {
+    deleteFoldersRecursive(`${__dirname}/dist`);
+    copyAllFiles()
+        .then(() => compileAll());
+}
