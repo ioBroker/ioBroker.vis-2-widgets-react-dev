@@ -53,7 +53,6 @@ function makeFederation(name, exposes, eager, _shared) {
         '@mui/icons-material',
         '@mui/material',
         '@mui/system',
-        'clsx',
         'prop-types',
         'react',
         'react-ace',
