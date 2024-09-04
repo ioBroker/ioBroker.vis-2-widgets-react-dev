@@ -72,10 +72,11 @@ function compileAll() {
                 'craco-module-federation.js',
                 'searchI18n.js',
                 'gulpHelper.js',
+                'buildHelper.js',
             ], 'dist');
 
             copyFiles([
-                    'src/**/*.*',
+                    'src/*',
                 ], 'dist/src');
         });
 }

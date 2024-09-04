@@ -37,14 +37,6 @@
   "bugs": {
     "url": "https://github.com/ioBroker/ioBroker.vis-2-widgets-react-dev/issues"
   },
-  "files": [
-    "dist",
-    "src",
-    "*.js",
-    "tsconfig.json",
-    "tsconfig.build.json",
-    "LICENSE"
-  ],
   "homepage": "https://github.com/ioBroker/ioBroker.vis-2-widgets-react-dev#readme",
   "dependencies": {
     "@mui/icons-material": "^6.0.2",
