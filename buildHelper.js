@@ -288,6 +288,5 @@ module.exports = {
     copyFiles,
     buildWidgets,
     npmInstall,
-    gulpTasks,
     deleteFoldersRecursive,
 };
