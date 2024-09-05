@@ -110,7 +110,7 @@ export default App;
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 4.0.3 (2024-09-05)
 * (bluefox) Improvement for vis-2 widgets
 * (bluefox) Removed gulp from a build process
 
