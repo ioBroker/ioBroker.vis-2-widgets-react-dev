@@ -40,7 +40,7 @@
   "homepage": "https://github.com/ioBroker/ioBroker.vis-2-widgets-react-dev#readme",
   "dependencies": {
     "@mui/icons-material": "^6.0.2",
-    "@mui/material": "^6.0.2",
+    "@mui/material": "^6.1.1",
     "@sentry/browser": "^8.28.0",
     "node-dir": "^0.1.17",
     "acorn": "^8.12.1",
