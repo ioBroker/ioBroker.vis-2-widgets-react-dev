@@ -1,6 +1,6 @@
 const dir = require('node-dir');
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 // Extend Acorn parser with JSX
 const acorn = require('acorn');
 const jsx = require('acorn-jsx');
