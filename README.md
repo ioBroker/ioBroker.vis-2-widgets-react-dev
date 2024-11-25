@@ -110,7 +110,7 @@ export default App;
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 4.0.4 (2024-11-25)
 * (bluefox) Updated adapter-react-v5
 
 ### 4.0.3 (2024-09-05)
