@@ -60,7 +60,7 @@
     "@babel/preset-flow": "^7.27.1",
     "@babel/preset-react": "^7.27.1",
     "@iobroker/adapter-react-v5": "^7.6.15",
-    "@iobroker/types": "^6.0.11",
+    "@iobroker/types": "^7.0.7",
     "@iobroker/types-vis-2": "^2.12.6",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.1",
