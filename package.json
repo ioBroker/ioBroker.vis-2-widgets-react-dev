@@ -41,7 +41,7 @@
   "dependencies": {
     "@mui/icons-material": "^6.1.9",
     "@mui/material": "^6.1.9",
-    "@sentry/browser": "^8.40.0",
+    "@sentry/browser": "^10.17.0",
     "node-dir": "^0.1.17",
     "acorn": "^8.14.1",
     "acorn-jsx": "^5.3.2",
