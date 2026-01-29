@@ -1,12 +1,7 @@
 import React from 'react';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 
-import {
-    I18n,
-    Loader,
-    GenericApp,
-    type GenericAppProps,
-} from '@iobroker/adapter-react-v5';
+import { I18n, Loader, GenericApp, type GenericAppProps } from '@iobroker/adapter-react-v5';
 
 import langEn from '@iobroker/adapter-react-v5/i18n/en.json';
 import langDe from '@iobroker/adapter-react-v5/i18n/de.json';
@@ -17,10 +12,10 @@ import langFr from '@iobroker/adapter-react-v5/i18n/fr.json';
 import langIt from '@iobroker/adapter-react-v5/i18n/it.json';
 import langEs from '@iobroker/adapter-react-v5/i18n/es.json';
 import langPl from '@iobroker/adapter-react-v5/i18n/pl.json';
-import langUk from '@iobroker/adapter-react-v5/i18n/pl.json';
+import langUk from '@iobroker/adapter-react-v5/i18n/uk.json';
 import langZh from '@iobroker/adapter-react-v5/i18n/zh-cn.json';
 
-class WidgetDemoApp extends GenericApp {
+export default class WidgetDemoApp extends GenericApp {
     constructor(props: GenericAppProps) {
         const extendedProps = { ...props };
         super(props, extendedProps);
@@ -50,11 +45,13 @@ class WidgetDemoApp extends GenericApp {
 
     render() {
         if (!this.state.loaded) {
-            return <StyledEngineProvider injectFirst>
-                <ThemeProvider theme={this.state.theme}>
-                    <Loader themeType={this.state.themeType} />
-                </ThemeProvider>
-            </StyledEngineProvider>;
+            return (
+                <StyledEngineProvider injectFirst>
+                    <ThemeProvider theme={this.state.theme}>
+                        <Loader themeType={this.state.themeType} />
+                    </ThemeProvider>
+                </StyledEngineProvider>
+            );
         }
 
         const style = {
@@ -65,14 +62,12 @@ class WidgetDemoApp extends GenericApp {
             overflow: 'auto',
         };
 
-        return <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={this.state.theme}>
-                <div style={style}>
-                    {this.renderWidget()}
-                </div>
-            </ThemeProvider>
-        </StyledEngineProvider>;
+        return (
+            <StyledEngineProvider injectFirst>
+                <ThemeProvider theme={this.state.theme}>
+                    <div style={style}>{this.renderWidget()}</div>
+                </ThemeProvider>
+            </StyledEngineProvider>
+        );
     }
 }
-
-export default WidgetDemoApp;

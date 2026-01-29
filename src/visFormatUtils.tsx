@@ -76,7 +76,9 @@ function extractBinding(format: string): VisBinding[] | null {
                 systemOid = systemOid.substring(0, systemOid.length - 3);
             }
             let operations: VisBindingOperation[] | null = null;
-            const isEval = visOid.match(/^[\d\w_]+:\s?[-._/ :!#$%&()+=@^{}|~\p{Ll}\p{Lu}\p{Nd}]+$/u) || (!visOid.length && parts.length > 0); // (visOid.indexOf(':') !== -1) && (visOid.indexOf('::') === -1);
+            const isEval =
+                visOid.match(/^[\d\w_]+:\s?[-._/ :!#$%&()+=@^{}|~\p{Ll}\p{Lu}\p{Nd}]+$/u) ||
+                (!visOid.length && parts.length > 0); // (visOid.indexOf(':') !== -1) && (visOid.indexOf('::') === -1);
 
             if (isEval) {
                 const xx = visOid.split(':', 2);
@@ -86,17 +88,20 @@ function extractBinding(format: string): VisBinding[] | null {
                 operations = [];
                 operations.push({
                     op: 'eval',
-                    arg: [{
-                        name: xx[0],
-                        visOid,
-                        systemOid,
-                    }],
+                    arg: [
+                        {
+                            name: xx[0],
+                            visOid,
+                            systemOid,
+                        },
+                    ],
                 });
 
                 for (let u = 1; u < parts.length; u++) {
                     // eval construction
                     const trimmed = parts[u].trim();
-                    if (isIdBinding(trimmed)) { // parts[u].indexOf(':') !== -1 && parts[u].indexOf('::') === -1) {
+                    if (isIdBinding(trimmed)) {
+                        // parts[u].indexOf(':') !== -1 && parts[u].indexOf('::') === -1) {
                         const argParts = trimmed.split(':', 2);
                         let _visOid = argParts[1].trim();
                         let _systemOid = _visOid;
@@ -141,7 +146,8 @@ function extractBinding(format: string): VisBinding[] | null {
                     if (parse && parse[1]) {
                         const op = parse[1].trim();
                         // operators requires parameter
-                        if (op === '*' ||
+                        if (
+                            op === '*' ||
                             op === '+' ||
                             op === '-' ||
                             op === '/' ||
@@ -180,7 +186,7 @@ function extractBinding(format: string): VisBinding[] | null {
                         } else if (op === 'value') {
                             // value formatting
                             operations = operations || [];
-                            let arg: string = parse[2] === undefined ? '(2)' : (parse[2] || '');
+                            let arg: string = parse[2] === undefined ? '(2)' : parse[2] || '';
                             arg = arg.trim();
                             arg = arg.substring(1, arg.length - 1);
                             operations.push({ op, arg });
@@ -310,10 +316,20 @@ class VisFormatUtils {
         if (typeof value !== 'number') {
             value = parseFloat(value);
         }
-        return Number.isNaN(value) ? '' : value.toFixed(decimals || 0).replace(format[0], format[1]).replace(/\B(?=(\d{3})+(?!\d))/g, format[0]);
+        return Number.isNaN(value)
+            ? ''
+            : value
+                  .toFixed(decimals || 0)
+                  .replace(format[0], format[1])
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, format[0]);
     }
 
-    private formatMomentDate(dateObj: string | number | Date, _format?: string, useTodayOrYesterday?: boolean, moment?: any) {
+    private formatMomentDate(
+        dateObj: string | number | Date,
+        _format?: string,
+        useTodayOrYesterday?: boolean,
+        moment?: any,
+    ) {
         useTodayOrYesterday = typeof useTodayOrYesterday !== 'undefined' ? useTodayOrYesterday : false;
 
         if (!dateObj) {
@@ -344,10 +360,17 @@ class VisFormatUtils {
         if (useTodayOrYesterday && momentObject && moment) {
             if (momentObject.isSame(moment(), 'day')) {
                 const todayStr = this.vis._('Today');
-                result = moment(momentObject).format(format.replace('dddd', todayStr).replace('ddd', todayStr).replace('dd', todayStr)) || '';
-            } if (momentObject.isSame(moment().subtract(1, 'day'), 'day')) {
+                result =
+                    moment(momentObject).format(
+                        format.replace('dddd', todayStr).replace('ddd', todayStr).replace('dd', todayStr),
+                    ) || '';
+            }
+            if (momentObject.isSame(moment().subtract(1, 'day'), 'day')) {
                 const yesterdayStr = this.vis._('Yesterday');
-                result = moment(momentObject).format(format.replace('dddd', yesterdayStr).replace('ddd', yesterdayStr).replace('dd', yesterdayStr)) || '';
+                result =
+                    moment(momentObject).format(
+                        format.replace('dddd', yesterdayStr).replace('ddd', yesterdayStr).replace('dd', yesterdayStr),
+                    ) || '';
             }
         } else {
             result = moment(momentObject).format(format) || '';
@@ -376,7 +399,7 @@ class VisFormatUtils {
             case 'ММ':
             case 'М':
                 v = dateObj.getMonth() + 1;
-                if ((v < 10) && (token.length === 2)) {
+                if (v < 10 && token.length === 2) {
                     v = `0${v}`;
                 }
                 break;
@@ -465,7 +488,7 @@ class VisFormatUtils {
                     realDateObj = new Date(dateObj);
                 } else {
                     // if less 2000.01.01 00:00:00
-                    realDateObj = (j < 946681200000) ? new Date(j * 1000) : new Date(j);
+                    realDateObj = j < 946681200000 ? new Date(j * 1000) : new Date(j);
                 }
             } else {
                 realDateObj = new Date(dateObj);
@@ -475,7 +498,10 @@ class VisFormatUtils {
         if (realDateObj) {
             const format = _format || this.vis.dateFormat || 'DD.MM.YYYY';
 
-            isDuration && realDateObj.setMilliseconds(realDateObj.getMilliseconds() + realDateObj.getTimezoneOffset() * 60 * 1000);
+            isDuration &&
+                realDateObj.setMilliseconds(
+                    realDateObj.getMilliseconds() + realDateObj.getTimezoneOffset() * 60 * 1000,
+                );
 
             const validFormatChars = 'YJГMМDTДhSчmмsс';
             let s = '';
@@ -526,9 +552,7 @@ class VisFormatUtils {
         values?: VisRxWidgetStateValues;
         moment: any;
     }): string {
-        const {
-            view, wid, widget, widgetData, moment,
-        } = options;
+        const { view, wid, widget, widgetData, moment } = options;
 
         let { format } = options;
 
@@ -550,7 +574,8 @@ class VisFormatUtils {
                     for (const operation of oid.operations) {
                         if (operation.op === 'eval') {
                             let string = ''; // '(function() {';
-                            const evalArgs: VisBindingOperationArgument[] = operation.arg as VisBindingOperationArgument[];
+                            const evalArgs: VisBindingOperationArgument[] =
+                                operation.arg as VisBindingOperationArgument[];
                             for (let a = 0; a < evalArgs.length; a++) {
                                 if (!evalArgs[a].name) {
                                     continue;
@@ -558,9 +583,11 @@ class VisFormatUtils {
                                 value = this.getSpecialValues(evalArgs[a].visOid, view, wid, widgetData);
 
                                 if (value === undefined || value === null) {
-                                    value = evalArgs[a].visOid.startsWith('widgetOid.') ?
-                                        (_values as Record<string, any>)[evalArgs[a].visOid.replace(/^widgetOid\./g, `${widget.data.oid}.`)] :
-                                        (_values as Record<string, any>)[evalArgs[a].visOid];
+                                    value = evalArgs[a].visOid.startsWith('widgetOid.')
+                                        ? (_values as Record<string, any>)[
+                                              evalArgs[a].visOid.replace(/^widgetOid\./g, `${widget.data.oid}.`)
+                                          ]
+                                        : (_values as Record<string, any>)[evalArgs[a].visOid];
                                 }
                                 if (value === null) {
                                     string += `const ${evalArgs[a].name} = null;`;
@@ -616,7 +643,12 @@ class VisFormatUtils {
                                 value = 0;
                             }
                         } else {
-                            const operationArg: string | number | undefined | null | string[] = operation.arg as string | number | undefined | null | string[];
+                            const operationArg: string | number | undefined | null | string[] = operation.arg as
+                                | string
+                                | number
+                                | undefined
+                                | null
+                                | string[];
 
                             switch (operation.op) {
                                 case '*':
@@ -649,7 +681,7 @@ class VisFormatUtils {
                                     if (operationArg === undefined) {
                                         value = Math.round(parseFloat(value));
                                     } else {
-                                        value = parseFloat(value).toFixed((operationArg as number));
+                                        value = parseFloat(value).toFixed(operationArg as number);
                                     }
                                     break;
                                 case 'pow':
@@ -690,7 +722,11 @@ class VisFormatUtils {
                                     value = this.formatDate(value, operationArg as string);
                                     break;
                                 case 'momentDate':
-                                    if (operationArg !== undefined && operationArg !== null && typeof operationArg === 'string') {
+                                    if (
+                                        operationArg !== undefined &&
+                                        operationArg !== null &&
+                                        typeof operationArg === 'string'
+                                    ) {
                                         const params = (operationArg as string).split(',');
 
                                         if (params.length === 1) {
@@ -704,11 +740,11 @@ class VisFormatUtils {
                                     break;
                                 case 'min':
                                     value = parseFloat(value);
-                                    value = (value < (operationArg as number)) ? operationArg : value;
+                                    value = value < (operationArg as number) ? operationArg : value;
                                     break;
                                 case 'max':
                                     value = parseFloat(value);
-                                    value = (value > (operationArg as number)) ? operationArg : value;
+                                    value = value > (operationArg as number) ? operationArg : value;
                                     break;
                                 case 'random':
                                     if (operationArg === undefined) {

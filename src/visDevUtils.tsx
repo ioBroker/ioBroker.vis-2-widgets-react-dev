@@ -1,15 +1,19 @@
-import { createRef, type RefObject } from 'react';
+import React, { type RefObject } from 'react';
 import moment from 'moment';
 import type { LegacyConnection, ThemeName, ThemeType } from '@iobroker/adapter-react-v5';
-import {
-    AnyWidgetId, Project, ViewCommand, ViewCommandOptions,
-    VisBaseWidgetProps, VisChangeHandlerCallback,
+import type {
+    AnyWidgetId,
+    Project,
+    ViewCommand,
+    ViewCommandOptions,
+    VisBaseWidgetProps,
+    VisChangeHandlerCallback,
     VisContext,
     VisLegacy,
     VisRxWidgetStateValues,
     VisTheme,
     WidgetData,
-    WidgetStyle
+    WidgetStyle,
 } from '@iobroker/types-vis-2';
 import VisFormatUtils from './visFormatUtils';
 
@@ -20,11 +24,11 @@ const VIEW_NAME = 'viewDemo';
 
 export function getContext(
     options: {
-        socket: LegacyConnection,
-        themeType?: ThemeType,
-        themeName?: ThemeName,
-        toggleTheme?: () => void,
-        theme: VisTheme,
+        socket: LegacyConnection;
+        themeType?: ThemeType;
+        themeName?: ThemeName;
+        toggleTheme?: () => void;
+        theme: VisTheme;
     },
     context: Partial<VisContext> | undefined,
     data?: WidgetData,
@@ -39,7 +43,11 @@ export function getContext(
         adapterName: 'vis-2',
         allWidgets: {},
         // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-shadow,@typescript-eslint/no-empty-function
-        askAboutInclude: (_wid: AnyWidgetId, _toWid: AnyWidgetId, _cb: (_wid: AnyWidgetId, _toWid: AnyWidgetId) => void) => {
+        askAboutInclude: (
+            _wid: AnyWidgetId,
+            _toWid: AnyWidgetId,
+            _cb: (_wid: AnyWidgetId, _toWid: AnyWidgetId) => void,
+        ) => {
             // ignore
         },
         // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -53,9 +61,12 @@ export function getContext(
         },
         canStates: {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            attr: (_id: VisRxWidgetStateValues | string, _val?: string | number | boolean): string | number | boolean | undefined | null | void => {},
+            attr: (
+                _id: VisRxWidgetStateValues | string,
+                _val?: string | number | boolean,
+            ): string | number | boolean | undefined | null | void => {},
             // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-            removeAttr: (_id: string) => { },
+            removeAttr: (_id: string) => {},
         },
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         changeProject: async (project: Project, ignoreHistory?: boolean) => {
@@ -79,38 +90,22 @@ export function getContext(
         jQuery: null,
         lang: 'de',
         linkContext: {
-            unregisterChangeHandler: (_wid: AnyWidgetId, _cb: VisChangeHandlerCallback): void => {
-
-            },
-            registerChangeHandler: (_wid: AnyWidgetId, _cb: VisChangeHandlerCallback): void => {
-
-            },
-            subscribe: (_stateId: string | string[]): void => {
-
-            },
-            unsubscribe: (_stateId: string | string[]): void => {
-
-            },
+            unregisterChangeHandler: (_wid: AnyWidgetId, _cb: VisChangeHandlerCallback): void => {},
+            registerChangeHandler: (_wid: AnyWidgetId, _cb: VisChangeHandlerCallback): void => {},
+            subscribe: (_stateId: string | string[]): void => {},
+            unsubscribe: (_stateId: string | string[]): void => {},
             getViewRef: (_view: string): RefObject<HTMLDivElement> | null => null,
-            registerViewRef: (_view: string, _ref: RefObject<HTMLDivElement>, _onCommand: (command: ViewCommand, options?: ViewCommandOptions) => any): void => {
-
-            },
-            unregisterViewRef: (_view: string, _ref: RefObject<HTMLDivElement>): void => {
-
-            },
-            visibility: {
-
-            },
-            signals: {
-
-            },
-            lastChanges:{
-
-            },
+            registerViewRef: (
+                _view: string,
+                _ref: RefObject<HTMLDivElement>,
+                _onCommand: (command: ViewCommand, options?: ViewCommandOptions) => any,
+            ): void => {},
+            unregisterViewRef: (_view: string, _ref: RefObject<HTMLDivElement>): void => {},
+            visibility: {},
+            signals: {},
+            lastChanges: {},
             /** list of widgets, that depends on this state */
-            bindings: {
-
-            },
+            bindings: {},
             IDs: [],
         },
         lockDragging: false,
@@ -132,8 +127,7 @@ export function getContext(
             // ignore
         },
         setValue: (id: string, value: string | boolean | number | null): void => {
-            options.socket.setState(id, value, false)
-                .catch(e => console.error(`Cannot set state ${id}: ${e}`));
+            options.socket.setState(id, value, false).catch(e => console.error(`Cannot set state ${id}: ${e}`));
         },
         showWidgetNames: true,
         socket: options.socket,
@@ -174,12 +168,12 @@ export function getContext(
 
 export function getProps(
     options: {
-        socket: LegacyConnection,
-        themeType?: ThemeType,
-        themeName?: ThemeName,
-        toggleTheme?: () => void,
-        theme: VisTheme,
-        refParent?: RefObject<HTMLDivElement>,
+        socket: LegacyConnection;
+        themeType?: ThemeType;
+        themeName?: ThemeName;
+        toggleTheme?: () => void;
+        theme: VisTheme;
+        refParent?: RefObject<HTMLDivElement>;
     },
     data?: WidgetData,
     style?: WidgetStyle,
@@ -212,7 +206,7 @@ export function getProps(
         mouseDownOnView: () => {
             // ignore
         },
-        refParent: options?.refParent || createRef(),
+        refParent: options?.refParent || React.createRef(),
         context: getContext(options, context, data, style),
         customSettings: {},
         ...(props || undefined),

@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2024 bluefox <dogafox@gmail.com>
+ * Copyright 2018-2026 bluefox <dogafox@gmail.com>
  *
  * MIT License
  *
@@ -10,16 +10,16 @@ const fs = require('node:fs');
 const { deleteFoldersRecursive, copyFiles } = require('@iobroker/build-tools');
 
 function copyAllFiles() {
-    copyFiles(['src/**/*.d.ts'], 'dist');
-    copyFiles(['README.md'], 'dist');
-    copyFiles(['LICENSE'], 'dist');
+    copyFiles(['src/**/*.d.ts'], 'build');
+    copyFiles(['README.md'], 'build');
+    copyFiles(['LICENSE'], 'build');
     return new Promise(resolve => {
         const package_ = require('./package.json');
         const packageSrc = require('./src/package.json');
         packageSrc.version = package_.version;
         packageSrc.dependencies = package_.dependencies;
-        !fs.existsSync(`${__dirname}/dist`) && fs.mkdirSync(`${__dirname}/dist`);
-        fs.writeFileSync(`${__dirname}/dist/package.json`, JSON.stringify(packageSrc, null, 2));
+        !fs.existsSync(`${__dirname}/build`) && fs.mkdirSync(`${__dirname}/build`);
+        fs.writeFileSync(`${__dirname}/build/package.json`, JSON.stringify(packageSrc, null, 2));
         resolve();
     })
 }
@@ -50,14 +50,6 @@ function compile() {
     });
 }
 
-const babelOptions = {
-    presets: ['@babel/preset-env', '@babel/preset-react'],
-    plugins: [
-        '@babel/plugin-proposal-class-properties',
-        '@babel/plugin-transform-runtime',
-    ],
-};
-
 function handleError (error) {
     console.log(error.toString());
     this.emit('end');
@@ -67,22 +59,18 @@ function compileAll() {
     return compile()
         .then(() => {
             copyFiles([
-                'craco.config.js',
-                'modulefederation.config.js',
-                'craco-module-federation.js',
                 'searchI18n.js',
-                'gulpHelper.js',
                 'buildHelper.js',
-            ], 'dist');
+            ], 'build');
 
             copyFiles([
                     'src/*',
-                ], 'dist/src');
+                ], 'build/src');
         });
 }
 
 if (process.argv.includes('--clean')) {
-    deleteFoldersRecursive(`${__dirname}/dist`);
+    deleteFoldersRecursive(`${__dirname}/build`);
 } else if (process.argv.includes('--copy')) {
     copyAllFiles()
         .catch(e => console.error(`Cannot copy files: ${e}`));
@@ -90,7 +78,7 @@ if (process.argv.includes('--clean')) {
     compileAll()
         .catch(e => console.error(`Cannot compile: ${e}`));
 } else {
-    deleteFoldersRecursive(`${__dirname}/dist`);
+    deleteFoldersRecursive(`${__dirname}/build`);
     copyAllFiles()
         .then(() => compileAll());
 }
