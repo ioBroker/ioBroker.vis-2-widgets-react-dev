@@ -61,7 +61,7 @@
         "@babel/preset-react": "^7.28.5",
         "@iobroker/adapter-react-v5": "^8.0.17",
         "@iobroker/types": "^7.1.0",
-        "@iobroker/types-vis-2": "^2.13.8",
+        "@iobroker/types-vis-2": "^2.13.17",
         "@types/react": "^18.3.23",
         "@types/react-dom": "^18.3.1",
         "babel": "^6.23.0",
