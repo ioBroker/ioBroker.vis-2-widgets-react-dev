@@ -266,7 +266,7 @@ class VisFormatUtils {
     }
 
     // get value of Obj property PropPath. PropPath is string like "Prop1" or "Prop1.Prop2" ...
-    private static getObjPropValue(obj: ioBroker.Object, propPath: string) {
+    private static getObjPropValue(obj: ioBroker.Object, propPath: string): Record<string, any> | undefined {
         if (!obj) {
             return undefined;
         }
@@ -281,7 +281,12 @@ class VisFormatUtils {
         return _obj;
     }
 
-    private getSpecialValues(name: string, view: string, wid: AnyWidgetId, widgetData: WidgetData) {
+    private getSpecialValues(
+        name: string,
+        view: string,
+        wid: AnyWidgetId,
+        widgetData: WidgetData,
+    ): string | false | undefined {
         switch (name) {
             case 'username.val':
                 return this.vis.user;
@@ -329,7 +334,7 @@ class VisFormatUtils {
         _format?: string,
         useTodayOrYesterday?: boolean,
         moment?: any,
-    ) {
+    ): string {
         useTodayOrYesterday = typeof useTodayOrYesterday !== 'undefined' ? useTodayOrYesterday : false;
 
         if (!dateObj) {
@@ -379,7 +384,7 @@ class VisFormatUtils {
         return result;
     }
 
-    private static _put(token: string, dateObj: Date, result: string) {
+    private static _put(token: string, dateObj: Date, result: string): string {
         let v: string | number = '';
 
         switch (token) {
@@ -604,7 +609,7 @@ class VisFormatUtils {
                                             } else {
                                                 string += `const ${evalArgs[a].name} = "${value}";`;
                                             }
-                                        } catch (e) {
+                                        } catch {
                                             string += `const ${evalArgs[a].name} = "${value}";`;
                                         }
                                     } else if (type === 'object') {
@@ -630,7 +635,6 @@ class VisFormatUtils {
 
                             // string += '}())';
                             try {
-                                // eslint-disable-next-line no-new-func
                                 value = new Function(string)();
 
                                 if (value && typeof value === 'object') {
@@ -644,11 +648,7 @@ class VisFormatUtils {
                             }
                         } else {
                             const operationArg: string | number | undefined | null | string[] = operation.arg as
-                                | string
-                                | number
-                                | undefined
-                                | null
-                                | string[];
+                                string | number | undefined | null | string[];
 
                             switch (operation.op) {
                                 case '*':
@@ -727,7 +727,7 @@ class VisFormatUtils {
                                         operationArg !== null &&
                                         typeof operationArg === 'string'
                                     ) {
-                                        const params = (operationArg as string).split(',');
+                                        const params = operationArg.split(',');
 
                                         if (params.length === 1) {
                                             value = this.formatMomentDate(value, params[0], false, moment);
@@ -763,7 +763,7 @@ class VisFormatUtils {
                                     if (value && typeof value === 'string') {
                                         try {
                                             value = JSON.parse(value);
-                                        } catch (e) {
+                                        } catch {
                                             console.warn(`Cannot parse JSON string: ${value}`);
                                         }
                                     }

@@ -1,19 +1,20 @@
 import React from 'react';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 
-import { I18n, Loader, GenericApp, type GenericAppProps } from '@iobroker/adapter-react-v5';
+import { I18n, Loader, GenericApp, type GenericAppProps } from '@iobroker/gui-components';
 
-import langEn from '@iobroker/adapter-react-v5/i18n/en.json';
-import langDe from '@iobroker/adapter-react-v5/i18n/de.json';
-import langRu from '@iobroker/adapter-react-v5/i18n/ru.json';
-import langPt from '@iobroker/adapter-react-v5/i18n/pt.json';
-import langNl from '@iobroker/adapter-react-v5/i18n/nl.json';
-import langFr from '@iobroker/adapter-react-v5/i18n/fr.json';
-import langIt from '@iobroker/adapter-react-v5/i18n/it.json';
-import langEs from '@iobroker/adapter-react-v5/i18n/es.json';
-import langPl from '@iobroker/adapter-react-v5/i18n/pl.json';
-import langUk from '@iobroker/adapter-react-v5/i18n/uk.json';
-import langZh from '@iobroker/adapter-react-v5/i18n/zh-cn.json';
+import langEn from '@iobroker/gui-components/i18n/en.json';
+import langDe from '@iobroker/gui-components/i18n/de.json';
+import langRu from '@iobroker/gui-components/i18n/ru.json';
+import langPt from '@iobroker/gui-components/i18n/pt.json';
+import langNl from '@iobroker/gui-components/i18n/nl.json';
+import langFr from '@iobroker/gui-components/i18n/fr.json';
+import langIt from '@iobroker/gui-components/i18n/it.json';
+import langEs from '@iobroker/gui-components/i18n/es.json';
+import langPl from '@iobroker/gui-components/i18n/pl.json';
+import langUk from '@iobroker/gui-components/i18n/uk.json';
+import langZh from '@iobroker/gui-components/i18n/zh-cn.json';
+import { CssBaseline } from '@mui/material';
 
 export default class WidgetDemoApp extends GenericApp {
     constructor(props: GenericAppProps) {
@@ -35,19 +36,21 @@ export default class WidgetDemoApp extends GenericApp {
         };
 
         // init translations
-        I18n.setTranslations(translations);
+        I18n.extendTranslations(translations);
         I18n.setLanguage((navigator.language || 'en').substring(0, 2).toLowerCase() as ioBroker.Languages);
     }
 
-    renderWidget() {
+    // eslint-disable-next-line class-methods-use-this
+    renderWidget(): React.JSX.Element {
         return <div>Please implement renderWidget method in your class</div>;
     }
 
-    render() {
+    render(): React.JSX.Element {
         if (!this.state.loaded) {
             return (
                 <StyledEngineProvider injectFirst>
                     <ThemeProvider theme={this.state.theme}>
+                        <CssBaseline />
                         <Loader themeType={this.state.themeType} />
                     </ThemeProvider>
                 </StyledEngineProvider>
@@ -65,6 +68,7 @@ export default class WidgetDemoApp extends GenericApp {
         return (
             <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={this.state.theme}>
+                    <CssBaseline />
                     <div style={style}>{this.renderWidget()}</div>
                 </ThemeProvider>
             </StyledEngineProvider>

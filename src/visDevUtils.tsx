@@ -1,9 +1,11 @@
 import React, { type RefObject } from 'react';
 import moment from 'moment';
-import type { LegacyConnection, ThemeName, ThemeType } from '@iobroker/adapter-react-v5';
+import type { Connection, ThemeName, ThemeType } from '@iobroker/gui-components';
 import type {
     AnyWidgetId,
     Project,
+    ProjectSettings,
+    View,
     ViewCommand,
     ViewCommandOptions,
     VisBaseWidgetProps,
@@ -24,7 +26,7 @@ const VIEW_NAME = 'viewDemo';
 
 export function getContext(
     options: {
-        socket: LegacyConnection;
+        socket: Connection;
         themeType?: ThemeType;
         themeName?: ThemeName;
         toggleTheme?: () => void;
@@ -41,8 +43,8 @@ export function getContext(
         VisView: null as unknown as VisContext['VisView'],
         activeView: VIEW_NAME,
         adapterName: 'vis-2',
+        additionalSets: {},
         allWidgets: {},
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-shadow,@typescript-eslint/no-empty-function
         askAboutInclude: (
             _wid: AnyWidgetId,
             _toWid: AnyWidgetId,
@@ -50,22 +52,20 @@ export function getContext(
         ) => {
             // ignore
         },
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         buildLegacyStructures: () => {
             // ignore
         },
         can: {
             Map: null,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             view: (_templateName: string, _data: unknown) => window.document.createElement('div'),
         },
         canStates: {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             attr: (
                 _id: VisRxWidgetStateValues | string,
                 _val?: string | number | boolean,
-            ): string | number | boolean | undefined | null | void => {},
-            // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
+            ): string | number | boolean | undefined | null => {
+                return undefined;
+            },
             removeAttr: (_id: string) => {},
         },
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -97,10 +97,10 @@ export function getContext(
             getViewRef: (_view: string): RefObject<HTMLDivElement> | null => null,
             registerViewRef: (
                 _view: string,
-                _ref: RefObject<HTMLDivElement>,
+                _ref: RefObject<HTMLDivElement | null>,
                 _onCommand: (command: ViewCommand, options?: ViewCommandOptions) => any,
             ): void => {},
-            unregisterViewRef: (_view: string, _ref: RefObject<HTMLDivElement>): void => {},
+            unregisterViewRef: (_view: string, _ref: RefObject<HTMLDivElement | null>): void => {},
             visibility: {},
             signals: {},
             lastChanges: {},
@@ -145,8 +145,16 @@ export function getContext(
         },
         user: 'admin',
         userGroups: {},
-        // @ts-expect-error demo view
+        // Project type mixes ___settings with the views index signature, so a literal cannot satisfy it directly
         views: {
+            ___settings: {
+                darkReloadScreen: false,
+                folders: [],
+                openedViews: [],
+                reloadOnEdit: true,
+                statesDebounceTime: 0,
+                scripts: null,
+            } satisfies ProjectSettings,
             [VIEW_NAME]: {
                 activeWidgets: [WIDGET_ID],
                 filterList: [],
@@ -159,8 +167,9 @@ export function getContext(
                         style: style || {},
                     },
                 },
-            },
-        },
+                settings: {},
+            } satisfies View,
+        } as unknown as Project,
         widgetHint: 'light',
         ...context,
     };
@@ -168,7 +177,7 @@ export function getContext(
 
 export function getProps(
     options: {
-        socket: LegacyConnection;
+        socket: Connection;
         themeType?: ThemeType;
         themeName?: ThemeName;
         toggleTheme?: () => void;

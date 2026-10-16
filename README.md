@@ -8,7 +8,7 @@ See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
 ## Migration v2 => v3
 - Add to import `import { getProps } from '@iobroker/vis-2-widgets-react-dev/visDevUtils';`
 - Add in constructor
-```
+```javascript
     constructor(props) {
         super(props);
         this.refParent = React.createRef();
@@ -32,7 +32,7 @@ See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
     }
 ```
 - Modify renderer
-```
+```javascript
     renderWidget() {
         return <div
             ref={this.refParent}
@@ -50,7 +50,7 @@ See here: https://github.com/ioBroker/ioBroker.vis-2-widgets-react-template
 
 Here is an example of the widget:
 
-```jsx
+```javascript
 import React from 'react';
 
 import WidgetDemoApp from '@iobroker/vis-2-widgets-react-dev/widgetDemoApp';
@@ -110,6 +110,11 @@ export default App;
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (bluefox) Widget sets are built for react 19 and MUI 9 now, against `@iobroker/gui-components` instead of `@iobroker/adapter-react-v5`
+* (bluefox) react, react-dom, MUI and `@iobroker/gui-components` are peer dependencies now. They were normal dependencies, so a second MUI landed in the tree of every widget set
+* (bluefox) `modulefederation.config.js` takes the shared modules from `@iobroker/types-vis-2` instead of keeping its own copy of the list. The own copy had drifted and never learned about `react/jsx-runtime`, so every widget set bundled its own JSX runtime - which react 19 refuses, taking the whole set down while it is loaded
+
 ### 4.0.4 (2024-11-25)
 * (bluefox) Updated adapter-react-v5
 

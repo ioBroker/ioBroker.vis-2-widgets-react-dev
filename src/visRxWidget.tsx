@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 
-import {
-    Card,
-    CardContent,
-} from '@mui/material';
+import { Card, CardContent } from '@mui/material';
 
-import { I18n } from '@iobroker/adapter-react-v5';
+import { I18n } from '@iobroker/gui-components';
 
-import {
+import type {
     AnyWidgetId,
     WidgetStyle,
     RxRenderWidgetProps,
@@ -60,10 +57,10 @@ interface VisRxWidgetState<T> {
     rxStyle: WidgetStyle;
 }
 
-class visRxWidget<T> extends Component<VisBaseWidgetProps, VisRxWidgetState<T>> {
+export default class visRxWidget<T> extends Component<VisBaseWidgetProps, VisRxWidgetState<T>> {
     static POSSIBLE_MUI_STYLES = POSSIBLE_MUI_STYLES;
 
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line react/no-unused-class-component-methods
     private wrappedContent: boolean | undefined;
 
     private refService: React.RefObject<HTMLDivElement> = React.createRef();
@@ -105,7 +102,7 @@ class visRxWidget<T> extends Component<VisBaseWidgetProps, VisRxWidgetState<T>> 
         throw new Error('not implemented');
     }
 
-    static getI18nPrefix() {
+    static getI18nPrefix(): string {
         return '';
     }
 
@@ -119,8 +116,10 @@ class visRxWidget<T> extends Component<VisBaseWidgetProps, VisRxWidgetState<T>> 
         return text;
     }
 
-    // eslint-disable-next-line no-unused-vars
     static t(key: ioBroker.StringOrTranslated, ...args: any[]): string {
+        if (typeof key === 'object') {
+            return key[I18n.getLanguage()] || key.en;
+        }
         return I18n.t(`${this.getI18nPrefix()}${key}`, ...args);
     }
 
@@ -134,11 +133,9 @@ class visRxWidget<T> extends Component<VisBaseWidgetProps, VisRxWidgetState<T>> 
     }
 
     // eslint-disable-next-line class-methods-use-this
-    onStateUpdated(_id: string, _state: ioBroker.State | null): void {
+    onStateUpdated(_id: string, _state: ioBroker.State | null): void {}
 
-    }
-
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line react/no-unused-class-component-methods
     formatValue(value: number | string | null, round?: number): string {
         if (typeof value === 'number') {
             if (round === 0) {
@@ -156,7 +153,7 @@ class visRxWidget<T> extends Component<VisBaseWidgetProps, VisRxWidgetState<T>> 
         return value === undefined || value === null ? '' : value.toString();
     }
 
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line react/no-unused-class-component-methods
     wrapContent(
         content: React.ReactNode,
         addToHeader?: React.ReactNode | null,
@@ -194,79 +191,81 @@ class visRxWidget<T> extends Component<VisBaseWidgetProps, VisRxWidgetState<T>> 
         // apply style from the element
         Object.keys(this.state.rxStyle).forEach(attr => {
             const value = (this.state.rxStyle as Record<string, string>)[attr];
-            if (value !== null &&
-                value !== undefined &&
-                POSSIBLE_MUI_STYLES.includes(attr)
-            ) {
-                attr = attr.replace(
-                    /(-\w)/g,
-                    text => text[1].toUpperCase(),
-                );
+            if (value !== null && value !== undefined && POSSIBLE_MUI_STYLES.includes(attr)) {
+                attr = attr.replace(/(-\w)/g, text => text[1].toUpperCase());
                 style[attr] = value;
             }
         });
 
+        // eslint-disable-next-line react/no-unused-class-component-methods
         this.wrappedContent = true;
 
         // support for extended option widgetTitle
         // @ts-expect-error We know that widgetTitle could be a string
         const widgetTitle: string | undefined = this.state.rxData.widgetTitle;
 
-        return <MyCard
-            className="vis_rx_widget_card"
-            style={style}
-            onClick={onCardClick}
-        >
-            <MyCardContent
-                className="vis_rx_widget_card_content"
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    height: 'calc(100% - 32px)',
-                    paddingBottom: 16,
-                    position: 'relative',
-                    ...cardContentStyle,
-                }}
+        return (
+            <MyCard
+                className="vis_rx_widget_card"
+                style={style}
+                onClick={onCardClick}
             >
-                {widgetTitle ? <div
-                    className="vis_rx_widget_card_name"
+                <MyCardContent
+                    className="vis_rx_widget_card_content"
                     style={{
                         display: 'flex',
-                        justifyContent: 'space-between',
-                        width: '100%',
+                        flexDirection: 'column',
                         alignItems: 'center',
+                        height: 'calc(100% - 32px)',
+                        paddingBottom: 16,
+                        position: 'relative',
+                        ...cardContentStyle,
                     }}
                 >
-                    <div
-                        className="vis_rx_widget_card_name_div"
-                        style={{
-                            fontSize: 24,
-                            paddingTop: 0,
-                            paddingBottom: 4,
-                            ...headerStyle,
-                        }}
-                    >
-                        {widgetTitle}
-                    </div>
-                    {addToHeader || null}
-                </div> : (addToHeader || null)}
-                {content}
-            </MyCardContent>
-        </MyCard>;
+                    {widgetTitle ? (
+                        <div
+                            className="vis_rx_widget_card_name"
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                width: '100%',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <div
+                                className="vis_rx_widget_card_name_div"
+                                style={{
+                                    fontSize: 24,
+                                    paddingTop: 0,
+                                    paddingBottom: 4,
+                                    ...headerStyle,
+                                }}
+                            >
+                                {widgetTitle}
+                            </div>
+                            {addToHeader || null}
+                        </div>
+                    ) : (
+                        addToHeader || null
+                    )}
+                    {content}
+                </MyCardContent>
+            </MyCard>
+        );
     }
 
     // used for simulation of VisRxWidget
     private getIdSubscribeState = async (
         id: string,
         cb: (id: string, result: ioBroker.State | null) => void,
-    ) => {
+    ): Promise<void> => {
         const result = await this.props.context.socket.getState(id);
-        this.props.context.socket.subscribeState(id, () =>
-            cb(id, result));
+        this.props.context.socket
+            .subscribeState(id, () => cb(id, result))
+            .catch(e => console.error(`Cannot subscribe to state ${id}: ${e}`));
     };
 
-    onStateChanged(id: string, state: ioBroker.State | null | undefined) {
+    onStateChanged(id: string, state: ioBroker.State | null | undefined): void {
         if (!state) {
             return;
         }
@@ -301,7 +300,7 @@ class visRxWidget<T> extends Component<VisBaseWidgetProps, VisRxWidgetState<T>> 
         this.setState({ values });
     }
 
-    async componentDidMount() {
+    async componentDidMount(): Promise<void> {
         this.getWidgetInfo()?.visAttrs?.forEach(group =>
             group?.fields?.forEach(field => {
                 if ((field as RxWidgetInfoAttributesFieldWithType)?.type === 'id') {
@@ -315,26 +314,24 @@ class visRxWidget<T> extends Component<VisBaseWidgetProps, VisRxWidgetState<T>> 
                         }
                     });
                 }
-            }));
+            }),
+        );
 
         for (let i = 0; i < this.linkContext.IDs.length; i++) {
             await this.getIdSubscribeState(this.linkContext.IDs[i], this.onStateChanged);
         }
     }
 
-    componentWillUnmount() {
-        this.linkContext.IDs.forEach(oid =>
-            this.props.context.socket.unsubscribeState(oid, this.onStateChanged));
+    componentWillUnmount(): void {
+        this.linkContext.IDs.forEach(oid => this.props.context.socket.unsubscribeState(oid, this.onStateChanged));
     }
 
-    // eslint-disable-next-line no-unused-vars
-    getWidgetView(_view: string, _props?: Partial<VisViewProps>) {
-        return <div style={{ width: '100%', height: '100%' }}>
-            DEMO VIEW
-        </div>;
+    // eslint-disable-next-line class-methods-use-this,react/no-unused-class-component-methods
+    getWidgetView(_view: string, _props?: Partial<VisViewProps>): React.JSX.Element {
+        return <div style={{ width: '100%', height: '100%' }}>DEMO VIEW</div>;
     }
 
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line class-methods-use-this,react/no-unused-class-component-methods
     getWidgetInWidget(
         _view: string,
         _wid: AnyWidgetId,
@@ -347,29 +344,29 @@ class visRxWidget<T> extends Component<VisBaseWidgetProps, VisRxWidgetState<T>> 
         return null;
     }
 
-    render() {
-        return <div
-            ref={this.refService}
-            style={{
-                width: this.state.style?.width as string,
-                height: this.state.style?.height as string,
-            }}
-        >
-            {this.renderWidgetBody({
-                className: '',
-                overlayClassNames: [],
-                style: {},
-                id: 'defaultID',
-                refService: this.refService,
-                widget: {
-                    tpl: 'tplDemo',
-                    data: {},
+    render(): React.JSX.Element {
+        return (
+            <div
+                ref={this.refService}
+                style={{
+                    width: this.state.style?.width as string,
+                    height: this.state.style?.height as string,
+                }}
+            >
+                {this.renderWidgetBody({
+                    className: '',
+                    overlayClassNames: [],
                     style: {},
-                    widgetSet: 'demoSet',
-                },
-            })}
-        </div>;
+                    id: 'defaultID',
+                    refService: this.refService,
+                    widget: {
+                        tpl: 'tplDemo',
+                        data: {},
+                        style: {},
+                        widgetSet: 'demoSet',
+                    },
+                })}
+            </div>
+        );
     }
 }
-
-export default visRxWidget;
