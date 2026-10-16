@@ -110,7 +110,7 @@ export default App;
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 5.0.0 (2026-10-16)
 * (bluefox) Widget sets are built for react 19 and MUI 9 now, against `@iobroker/gui-components` instead of `@iobroker/adapter-react-v5`
 * (bluefox) react, react-dom, MUI and `@iobroker/gui-components` are peer dependencies now. They were normal dependencies, so a second MUI landed in the tree of every widget set
 * (bluefox) `modulefederation.config.js` takes the shared modules from `@iobroker/types-vis-2` instead of keeping its own copy of the list. The own copy had drifted and never learned about `react/jsx-runtime`, so every widget set bundled its own JSX runtime - which react 19 refuses, taking the whole set down while it is loaded
