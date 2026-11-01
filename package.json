@@ -48,7 +48,7 @@
     "react-dom": "^19.2.8"
   },
   "dependencies": {
-    "@sentry/browser": "^11.8.0",
+    "@sentry/browser": "^11.10.0",
     "acorn": "^8.19.0",
     "acorn-jsx": "^5.3.2",
     "acorn-jsx-walk": "^2.0.0",
